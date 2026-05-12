@@ -1,0 +1,455 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Broomsmith — Lily Vengco</title>
+  <link href="https://fonts.googleapis.com/css2?family=Fredoka+One&family=Nunito:wght@400;600;700;800&display=swap" rel="stylesheet" />
+  <style>
+    :root {
+      --awning-orange: #e8522a;
+      --awning-yellow: #f5c842;
+      --cream: #fdf6e3;
+      --sky: #7ecef4;
+      --sky-mid: #5baed4;
+      --sky-dark: #3a8ab0;
+      --accent: #e8522a;
+      --accent-dark: #b03a18;
+      --tab-active: #e8522a;
+      --tab-inactive: #b8a080;
+      --text-dark: #1a1000;
+      --text-mid: #4a3010;
+      --wood: #5a3010;
+      --card-cream: #fdf0d0;
+      --dropdown-bg: #1a5878;
+      --dropdown-hover: #0e3d55;
+      --font-display: 'Fredoka One', cursive;
+      --font-body: 'Nunito', sans-serif;
+    }
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+    html { scroll-behavior: smooth; }
+    body { font-family: var(--font-body); background: var(--cream); color: var(--text-dark); overflow-x: hidden; }
+
+    /* ===== TOP AWNING =====
+       Full-width awning PNG at the very top, sticky.
+       The back button and title sit ON TOP of it. */
+    .top-awning {
+      position: sticky;
+      top: 0;
+      z-index: 100;
+      width: 100%;
+      /* Awning.png is 2377×321px — height scales proportionally */
+      height: 100px;
+      background: url('assets/images/Awning.png') center top / 100% 100% no-repeat;
+      display: flex;
+      align-items: center;
+      padding: 0 24px;
+      gap: 16px;
+    }
+    .back-btn {
+      font-family: var(--font-display); font-size: 14px; color: white;
+      text-decoration: none; background: rgba(0,0,0,0.3); border: none;
+      padding: 8px 18px; border-radius: 8px; cursor: pointer;
+      transition: background 0.2s; white-space: nowrap;
+      box-shadow: 0 3px 0 rgba(0,0,0,0.25); flex-shrink: 0;
+    }
+    .back-btn:hover { background: rgba(0,0,0,0.5); }
+    .back-bar-title {
+      font-family: var(--font-display); color: white; font-size: 18px;
+      text-shadow: 1px 2px 0 rgba(0,0,0,0.25);
+    }
+
+    /* ===== SPLASH =====
+       To add splash art, replace the .splash-placeholder div with:
+       <img class="splash-img" src="assets/images/broomsmith-splash.jpg" alt="Broomsmith" />
+       Recommended: wide landscape, at least 1400px wide */
+    .splash {
+      width: 100%; height: clamp(280px, 45vw, 520px);
+      overflow: hidden; background: #111;
+      display: flex; align-items: center; justify-content: center;
+    }
+    .splash-img {
+      width: 100%; height: 100%; object-fit: cover; object-position: center top;
+      display: block;
+    }
+    .splash-placeholder {
+      width: 100%; height: 100%; display: flex; align-items: center; justify-content: center;
+      background: linear-gradient(135deg, #1a0a3a, #3a1060, #0a2a4a);
+      font-size: 6rem;
+    }
+
+    /* ===== ROLE BANNER ===== */
+    .role-banner {
+      background: var(--accent); color: white;
+      padding: 14px 32px; display: flex; align-items: center; gap: 12px;
+      font-family: var(--font-display); font-size: clamp(1.1rem, 3vw, 1.5rem);
+      box-shadow: 0 4px 0 var(--accent-dark);
+    }
+    .role-icon { font-size: 1.4em; }
+
+    /* ===== OVERVIEW ===== */
+    .overview-section {
+      background: linear-gradient(180deg, #a8dcf0 0%, #7ecef4 100%);
+      padding: 40px 32px 48px;
+    }
+    .overview-inner {
+      max-width: 1100px; margin: 0 auto;
+      display: grid; grid-template-columns: 1fr 1fr; gap: 24px; align-items: start;
+    }
+    @media (max-width: 700px) { .overview-inner { grid-template-columns: 1fr; } }
+    .overview-box {
+      background: var(--sky-mid); border-radius: 12px; padding: 24px 28px;
+      box-shadow: 4px 4px 0 var(--sky-dark);
+    }
+    .overview-box h2 {
+      font-family: var(--font-display); font-size: 2rem; color: white;
+      text-shadow: 1px 2px 0 rgba(0,0,0,0.2); margin-bottom: 14px;
+    }
+    .overview-box p { font-size: 0.95rem; line-height: 1.7; color: rgba(255,255,255,0.92); }
+    .video-box {
+      border-radius: 12px; overflow: hidden; background: #000;
+      box-shadow: 4px 4px 0 var(--sky-dark);
+      aspect-ratio: 16/9; display: flex; align-items: center; justify-content: center;
+    }
+    .video-box iframe { width: 100%; height: 100%; border: none; display: block; }
+    .video-placeholder {
+      width: 100%; aspect-ratio: 16/9; display: flex; flex-direction: column;
+      align-items: center; justify-content: center; gap: 10px;
+      background: rgba(0,0,0,0.4); color: rgba(255,255,255,0.6);
+      font-size: 0.85rem; font-weight: 700; letter-spacing: 1px; text-transform: uppercase;
+      border-radius: 12px;
+    }
+    .video-placeholder span { font-size: 3rem; }
+
+    /* ===== MID AWNING DIVIDER =====
+       Same Awning.png reused as a section break.
+       Replace with a different image if you want a variation. */
+    .mid-awning {
+      width: 100%;
+      height: 100px;
+      background: url('assets/images/Awning.png') center top / 100% 100% no-repeat;
+    }
+
+    /* ===== TAB BUTTONS =====
+       Each tab is an image button (your custom artwork).
+       To use custom button images, replace the .tab-btn-text span with:
+       <img src="assets/images/TechnicalBtn.png" alt="Technical Contributions" />
+       and remove the background/padding from .tab-btn.
+
+       Button image filenames expected (change to match yours):
+         assets/images/TechnicalBtn.png
+         assets/images/VisualBtn.png
+         assets/images/LeadershipBtn.png
+    */
+    .tab-bar {
+      background: var(--sky);
+      display: flex; justify-content: center;
+      gap: 20px; padding: 24px 24px 0;
+      flex-wrap: wrap;
+    }
+
+    /* ── Image button style (used when you have custom art) ── */
+    .tab-btn {
+      cursor: pointer; border: none; background: none; padding: 0;
+      transition: transform 0.15s, filter 0.2s;
+      flex-shrink: 0;
+    }
+    .tab-btn img {
+      height: 64px; /* adjust to match your button art height */
+      width: auto;
+      display: block;
+      filter: drop-shadow(0 3px 5px rgba(0,0,0,0.25));
+    }
+    .tab-btn:hover img { filter: drop-shadow(0 4px 8px rgba(0,0,0,0.3)) brightness(1.05); transform: translateY(-2px); }
+    .tab-btn.active img { filter: drop-shadow(0 2px 3px rgba(0,0,0,0.3)) brightness(0.82); transform: translateY(1px); }
+
+    /* ── Fallback text button (shown until you have image assets) ── */
+    .tab-btn-fallback {
+      cursor: pointer; border: none;
+      background: var(--tab-inactive); color: white;
+      font-family: var(--font-display); font-size: clamp(12px, 2vw, 15px);
+      padding: 12px 22px; border-radius: 8px;
+      box-shadow: 0 4px 0 rgba(0,0,0,0.2);
+      transition: background 0.2s, transform 0.15s, box-shadow 0.15s;
+      white-space: nowrap;
+    }
+    .tab-btn-fallback:hover { transform: translateY(-2px); box-shadow: 0 6px 0 rgba(0,0,0,0.2); }
+    .tab-btn-fallback.active {
+      background: var(--tab-active);
+      box-shadow: 0 2px 0 rgba(0,0,0,0.2);
+      transform: translateY(2px);
+    }
+
+    /* ===== CONTRIBUTIONS PANEL ===== */
+    .contributions-section {
+      background: linear-gradient(180deg, var(--sky) 0%, #a8dcf0 100%);
+      min-height: 200px; padding: 32px 24px 60px;
+    }
+    .contributions-inner { max-width: 900px; margin: 0 auto; }
+    .tab-panel { display: none; }
+    .tab-panel.active { display: block; }
+
+    /* ===== DROPDOWN ENTRIES ===== */
+    .dropdown-entry {
+      background: var(--dropdown-bg); border-radius: 10px; margin-bottom: 12px;
+      overflow: hidden; box-shadow: 0 4px 0 rgba(0,0,0,0.15);
+    }
+    .dropdown-header {
+      display: flex; justify-content: space-between; align-items: center;
+      padding: 14px 20px; cursor: pointer;
+      font-family: var(--font-display); font-size: 1.05rem; color: var(--card-cream);
+      transition: background 0.2s; user-select: none;
+    }
+    .dropdown-header:hover { background: var(--dropdown-hover); }
+    .dropdown-arrow { font-size: 0.8rem; transition: transform 0.3s ease; flex-shrink: 0; margin-left: 12px; }
+    .dropdown-entry.open .dropdown-arrow { transform: rotate(180deg); }
+    .dropdown-body {
+      max-height: 0; overflow: hidden;
+      transition: max-height 0.4s ease, padding 0.3s ease;
+      background: rgba(255,255,255,0.06); padding: 0 20px;
+    }
+    .dropdown-entry.open .dropdown-body { max-height: 2000px; padding: 20px; }
+
+    /* Content blocks inside dropdowns */
+    .entry-subtitle { font-family: var(--font-display); font-size: 1.1rem; color: var(--awning-yellow); margin-bottom: 8px; }
+    .entry-text { font-size: 0.92rem; line-height: 1.75; color: rgba(255,255,255,0.88); margin-bottom: 16px; }
+    .entry-link { display: inline-flex; align-items: center; gap: 6px; color: var(--awning-yellow); font-size: 0.88rem; font-weight: 700; text-decoration: none; margin-bottom: 16px; transition: color 0.2s; }
+    .entry-link:hover { color: white; text-decoration: underline; }
+    .entry-img { width: 100%; border-radius: 8px; margin-bottom: 12px; display: block; box-shadow: 0 4px 12px rgba(0,0,0,0.3); }
+    .entry-img-row { display: flex; gap: 10px; flex-wrap: wrap; margin-bottom: 12px; }
+    .entry-img-row img { flex: 1 1 200px; border-radius: 8px; object-fit: cover; box-shadow: 0 4px 12px rgba(0,0,0,0.3); max-height: 220px; }
+    .entry-video { width: 100%; aspect-ratio: 16/9; border-radius: 8px; overflow: hidden; margin-bottom: 12px; background: #000; }
+    .entry-video iframe { width: 100%; height: 100%; border: none; }
+    .entry-divider { border: none; border-top: 1px solid rgba(255,255,255,0.12); margin: 16px 0; }
+
+    /* ===== FOOTER ===== */
+    footer { background: var(--text-dark); color: rgba(255,255,255,0.6); text-align: center; padding: 28px 20px; font-size: 0.85rem; }
+    footer a { color: var(--awning-yellow); text-decoration: none; }
+    .footer-name { font-family: var(--font-display); font-size: 1.2rem; color: white; margin-bottom: 6px; }
+  </style>
+</head>
+<body>
+
+<!-- ===== TOP AWNING + BACK NAV ===== -->
+<div class="top-awning">
+  <a class="back-btn" href="index.html">← Builds</a>
+  <span class="back-bar-title">Broomsmith</span>
+</div>
+
+<!-- ===== SPLASH IMAGE =====
+     Your current code had a typo: <div img class="splash-img" ...>
+     A div can't have src/alt — it needs to be an <img> tag.
+     Fixed below. Just make sure the path is correct.
+-->
+<div class="splash">
+  <img class="splash-img" src="assets/images/2DIllustrationGallery/BroomsmithTitleSplash1.png" alt="Broomsmith Splash Art" />
+</div>
+
+<!-- ===== ROLE BANNER ===== -->
+<div class="role-banner">
+  <span class="role-icon">🧹</span>
+  Project &amp; Technical Lead
+</div>
+
+<!-- ===== OVERVIEW ===== -->
+<section class="overview-section">
+  <div class="overview-inner">
+    <div class="overview-box">
+      <h2>Overview</h2>
+      <p>Broomsmith is a VR spellcasting and item repair experience set in a magical workshop. Players harness the powers of magical creatures to clean, paint, and restore a variety of magical items to boost their WELP ratings.</p>
+    </div>
+    <div class="video-box">
+      <!-- Replace this div with your iframe when ready:
+           <iframe src="https://www.youtube.com/embed/YOUR_VIDEO_ID" allow="autoplay; encrypted-media" allowfullscreen></iframe> -->
+      <div class="video-placeholder">
+        <span>▶</span>
+        add your trailer or playthrough video here
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ===== MID AWNING DIVIDER =====
+     Uses the same Awning.png as the top.
+     To swap for a different image:
+     Change the background-image URL in the .mid-awning CSS rule above. -->
+<div class="mid-awning"></div>
+
+<!-- ===== TAB BUTTONS =====
+     Currently using fallback text buttons.
+
+     WHEN YOU HAVE CUSTOM BUTTON IMAGES:
+     Replace each <button class="tab-btn-fallback"> with:
+       <button class="tab-btn active" data-tab="technical" onclick="switchTab(this)">
+         <img src="assets/images/TechnicalBtn.png" alt="Technical Contributions" />
+       </button>
+     Name your files whatever you like, just update the src paths.
+-->
+<div class="tab-bar">
+  <button class="tab-btn-fallback active" data-tab="technical" onclick="switchTab(this)">
+    Technical Contributions
+  </button>
+  <button class="tab-btn-fallback" data-tab="visual" onclick="switchTab(this)">
+    Visual Contributions
+  </button>
+  <button class="tab-btn-fallback" data-tab="leadership" onclick="switchTab(this)">
+    Leadership Process
+  </button>
+</div>
+
+<!-- ===== CONTRIBUTIONS CONTENT ===== -->
+<section class="contributions-section">
+  <div class="contributions-inner">
+
+    <!-- ══════════════════════════════════════════
+         TECHNICAL CONTRIBUTIONS TAB
+
+         HOW TO EDIT A DROPDOWN:
+         1. Change the title in .dropdown-header
+         2. Inside .dropdown-body use any of:
+            <p class="entry-subtitle">Heading</p>
+            <p class="entry-text">Paragraph text</p>
+            <a class="entry-link" href="URL" target="_blank">🔗 Label</a>
+            <img class="entry-img" src="assets/images/photo.jpg" alt="desc" />
+            <div class="entry-img-row"><img src="..." /><img src="..." /></div>
+            <div class="entry-video"><iframe src="YOUTUBE_EMBED_URL" allowfullscreen></iframe></div>
+            <hr class="entry-divider" />
+
+         HOW TO ADD A NEW DROPDOWN:
+         Copy a whole .dropdown-entry block, paste below the last one, edit content.
+    ══════════════════════════════════════════ -->
+    <div class="tab-panel active" id="tab-technical">
+
+      <div class="dropdown-entry">
+        <div class="dropdown-header" onclick="toggleDropdown(this)">
+          Render Target Async Reading Method
+          <span class="dropdown-arrow">▼</span>
+        </div>
+        <div class="dropdown-body">
+          <p class="entry-subtitle">The Problem</p>
+          <p class="entry-text">Standard Unreal Blueprint render target pixel reading caused frame hitches in VR. I needed an async GPU readback that could be callable from a Blueprint.</p>
+          <div class="entry-img-row">
+            <img src="assets/images/BroomsmithImgs/RenderTargetImg1.png" alt="C++ Code Segment" />
+          </div>
+          <p class="entry-subtitle">What I Did</p>
+          <p class="entry-text">I wrote a C++ Blueprint Function Library class called UCleaningAnalyzer that performs render target pixel analysis asynchronously on a background thread, then returns the result to the game thread via a delegate.</p>
+          <a class="entry-link" href="https://github.com/Lvengco/BroomsmithCodeSamples/tree/main" target="_blank">🔗 View on GitHub</a>
+          <p class="entry-subtitle">The Result</p>
+          <p class="entry-text">Frame hitches during cleaning analysis were eliminated entirely. The system handles multiple simultaneous render target reads without impacting VR frame rate, and is fully extensible. Any new repairable object just has to pass its render target in and receives a normalized progress float back. This system is used to read both the cleaning and painting progress of our meshes.</p>
+        </div>
+      </div>
+
+      <div class="dropdown-entry">
+        <div class="dropdown-header" onclick="toggleDropdown(this)">
+          VR Physics Grab System
+          <span class="dropdown-arrow">▼</span>
+        </div>
+        <div class="dropdown-body">
+          <p class="entry-subtitle">Overview</p>
+          <p class="entry-text"><!-- Describe the grab system work here --></p>
+          <div class="entry-img-row">
+            <!-- <img src="assets/images/grab-1.jpg" alt="Grab system screenshot" />
+                 <img src="assets/images/grab-2.jpg" alt="Grab system detail" /> -->
+          </div>
+        </div>
+      </div>
+
+      <!-- ADD MORE TECHNICAL DROPDOWNS HERE — copy a .dropdown-entry block above -->
+
+    </div><!-- /tab-technical -->
+
+    <!-- ══════════════════════════════════════════
+         VISUAL CONTRIBUTIONS TAB
+    ══════════════════════════════════════════ -->
+    <div class="tab-panel" id="tab-visual">
+
+      <div class="dropdown-entry">
+        <div class="dropdown-header" onclick="toggleDropdown(this)">
+          Environment Art &amp; Materials
+          <span class="dropdown-arrow">▼</span>
+        </div>
+        <div class="dropdown-body">
+          <p class="entry-subtitle">Overview</p>
+          <p class="entry-text"><!-- Describe your environment/material work here --></p>
+          <div class="entry-img-row">
+            <!-- <img src="assets/images/env-1.jpg" alt="" />
+                 <img src="assets/images/env-2.jpg" alt="" /> -->
+          </div>
+        </div>
+      </div>
+
+      <div class="dropdown-entry">
+        <div class="dropdown-header" onclick="toggleDropdown(this)">
+          UI Design &amp; HUD
+          <span class="dropdown-arrow">▼</span>
+        </div>
+        <div class="dropdown-body">
+          <p class="entry-text"><!-- Describe your UI work here --></p>
+        </div>
+      </div>
+
+      <!-- ADD MORE VISUAL DROPDOWNS HERE -->
+
+    </div><!-- /tab-visual -->
+
+    <!-- ══════════════════════════════════════════
+         LEADERSHIP PROCESS TAB
+    ══════════════════════════════════════════ -->
+    <div class="tab-panel" id="tab-leadership">
+
+      <div class="dropdown-entry">
+        <div class="dropdown-header" onclick="toggleDropdown(this)">
+          Sprint Planning &amp; Task Management
+          <span class="dropdown-arrow">▼</span>
+        </div>
+        <div class="dropdown-body">
+          <p class="entry-subtitle">Process</p>
+          <p class="entry-text"><!-- Describe your planning/leadership process --></p>
+          <a class="entry-link" href="#" target="_blank">🔗 View Sprint Board</a>
+        </div>
+      </div>
+
+      <div class="dropdown-entry">
+        <div class="dropdown-header" onclick="toggleDropdown(this)">
+          Team Communication &amp; Decision Making
+          <span class="dropdown-arrow">▼</span>
+        </div>
+        <div class="dropdown-body">
+          <p class="entry-text"><!-- Your leadership notes here --></p>
+        </div>
+      </div>
+
+      <!-- ADD MORE LEADERSHIP DROPDOWNS HERE -->
+
+    </div><!-- /tab-leadership -->
+
+  </div>
+</section>
+
+<footer>
+  <div class="footer-name">Lily ★ Vengco</div>
+  <a href="index.html">← Back to Portfolio</a>
+</footer>
+
+<script>
+  /* ── TAB SWITCHING ──
+     Works for both .tab-btn (image) and .tab-btn-fallback (text) buttons */
+  function switchTab(el) {
+    // Deactivate all buttons (handle both button classes)
+    document.querySelectorAll('.tab-btn, .tab-btn-fallback').forEach(t => t.classList.remove('active'));
+    el.classList.add('active');
+    const tabId = el.dataset.tab;
+    document.querySelectorAll('.tab-panel').forEach(p => p.classList.remove('active'));
+    document.getElementById('tab-' + tabId).classList.add('active');
+  }
+
+  /* ── DROPDOWN TOGGLE ── */
+  function toggleDropdown(headerEl) {
+    const entry = headerEl.closest('.dropdown-entry');
+    const isOpen = entry.classList.contains('open');
+    headerEl.closest('.tab-panel').querySelectorAll('.dropdown-entry').forEach(e => e.classList.remove('open'));
+    if (!isOpen) entry.classList.add('open');
+  }
+</script>
+</body>
+</html>

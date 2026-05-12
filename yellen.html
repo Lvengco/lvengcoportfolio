@@ -1,0 +1,609 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <!--
+  ╔══════════════════════════════════════════════════════════╗
+  ║  3D WORK DETAIL PAGE TEMPLATE                            ║
+  ║  To create a new 3D piece page:                          ║
+  ║  1. Copy this file, rename it (e.g. sword-stone.html)    ║
+  ║  2. Edit title sign, software icons, and media sections  ║
+  ╚══════════════════════════════════════════════════════════╝
+  -->
+  <title>3D Work — Lily Vengco</title>
+  <link href="https://fonts.googleapis.com/css2?family=Fredoka+One&family=Nunito:wght@400;600;700;800&display=swap" rel="stylesheet" />
+  <style>
+    :root {
+      --awning-orange: #e8522a;
+      --awning-yellow: #f5c842;
+      --sky: #7ecef4;
+      --sky-mid: #5baed4;
+      --sky-dark: #3a8ab0;
+      --cream: #fdf6e3;
+      --sign-green: #5a9e2f;
+      --sign-green-dark: #3a7018;
+      --text-dark: #1a1000;
+      --text-mid: #4a3010;
+      --wood: #5a3010;
+      --font-display: 'Fredoka One', cursive;
+      --font-body: 'Nunito', sans-serif;
+    }
+
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+    html { scroll-behavior: smooth; }
+    body { font-family: var(--font-body); background: var(--sky); color: var(--text-dark); overflow-x: hidden; }
+
+    /* ── BACK BAR ── */
+    .back-bar {
+      background: url('assets/images/Awning.png') center top / 100% 100% no-repeat;
+      background-color: transparent;
+      height: 80px;
+      padding: 0 24px;
+      display: flex; align-items: center; gap: 16px;
+      position: sticky; top: 0; z-index: 100;
+    }
+    .back-btn {
+      font-family: var(--font-display); font-size: 14px; color: white;
+      text-decoration: none; background: rgba(0,0,0,0.25); border: none;
+      padding: 7px 16px; border-radius: 8px; cursor: pointer;
+      transition: background 0.2s; white-space: nowrap;
+      box-shadow: 0 3px 0 rgba(0,0,0,0.2);
+    }
+    .back-btn:hover { background: rgba(0,0,0,0.4); }
+    .back-bar-title { font-family: var(--font-display); color: white; font-size: 16px; text-shadow: 1px 2px 0 rgba(0,0,0,0.2); }
+
+    /* ── PAGE WRAPPER ── */
+    .page-wrap {
+      max-width: 680px;
+      margin: 0 auto;
+      padding: 32px 20px 80px;
+    }
+
+    /* ══════════════════════════════════════════════
+       TITLE SIGN — PNG image version with text overlay
+
+       POSITION TUNING:
+       .title-sign-wrap margin-top — negative value tucks sign UP behind awning
+         e.g. margin-top: -60px pushes it 60px behind the awning
+         e.g. margin-top: 20px gives breathing room below awning
+       .title-sign-img max-width — controls sign width
+
+       TEXT TUNING:
+       .title-sign-text — adjust font-size, bottom, padding to
+         place text on the green panel of your PNG
+    ══════════════════════════════════════════════ */
+    .title-sign-wrap {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      margin-bottom: 20px;
+      /* ↓ EDIT THIS to move the sign up (negative) or down (positive) */
+      margin-top: -250px;
+      position: relative;
+      z-index: 5; /* sits in front of page content but can go behind awning if needed */
+    }
+    .title-sign-img-wrap {
+      position: relative;
+      width: 100%;
+      max-width: 480px;
+    }
+    .title-sign-img {
+      width: 100%;
+      height: auto;
+      display: block;
+      filter: drop-shadow(0 5px 8px rgba(0,0,0,0.2));
+    }
+    /* Text overlaid on the sign panel */
+    .title-sign-text {
+      position: absolute;
+      left: 0; right: 0;
+      /* ↓ EDIT bottom to move text up/down within the sign panel */
+      bottom: 9%;
+      text-align: center;
+      font-family: var(--font-display);
+      /* ↓ EDIT font-size to fit your title */
+      font-size: clamp(1.1rem, 3.5vw, 1.6rem);
+      color: white;
+      text-shadow: 1px 2px 0 rgba(0,0,0,0.3);
+      padding: 0 12%;
+      letter-spacing: 1px;
+      pointer-events: none;
+    }
+
+    /* ══════════════════════════════════════════════
+       PRIMARY MEDIA FRAME
+       Cream mat border around the dark frame.
+    ══════════════════════════════════════════════ */
+    .primary-frame-wrap {
+      background: #e8dfc8;
+      border-radius: 16px;
+      padding: 14px 14px 0 14px;
+      box-shadow: 0 8px 0 rgba(0,0,0,0.15), 0 2px 24px rgba(0,0,0,0.15);
+      margin-bottom: 0;
+    }
+    .primary-frame {
+      background: #1a2a3a;
+      border-radius: 8px;
+      overflow: hidden;
+      position: relative;
+    }
+    .primary-frame img {
+      width: 100%; display: block;
+      max-height: 480px; object-fit: contain;
+      background: #111;
+    }
+    .primary-frame .video-wrap { aspect-ratio: 16/9; position: relative; }
+    .primary-frame .video-wrap iframe { position: absolute; inset: 0; width: 100%; height: 100%; border: none; }
+    .primary-frame .sketchfab-wrap { aspect-ratio: 4/3; }
+    .primary-frame .sketchfab-wrap iframe { width: 100%; height: 100%; border: none; display: block; }
+    .primary-placeholder {
+      aspect-ratio: 4/3;
+      display: flex; flex-direction: column;
+      align-items: center; justify-content: center; gap: 10px;
+      background: linear-gradient(135deg, #1a2a3a, #0a3a5a);
+      color: rgba(255,255,255,0.4);
+      font-size: 0.8rem; font-weight: 700; letter-spacing: 1px; text-transform: uppercase;
+    }
+    .primary-placeholder span { font-size: 3.5rem; }
+
+    /* ══════════════════════════════════════════════
+       SOFTWARE SIGN — PNG image version
+       The sign PNG (with strings at top) hangs from
+       inside the cream mat at the bottom-right.
+       Strings are visible above the sign panel.
+
+       HOW TO ADD SOFTWARE ICONS:
+       Inside .software-sign-png add one .sw-icon per software:
+         <div class="sw-icon maya" title="Autodesk Maya">M</div>
+       Or with a real logo image (300×300px → displayed at 36px):
+         <div class="sw-icon" title="Maya">
+           <img src="assets/images/icons/maya-logo.png" alt="Maya" />
+         </div>
+       Built-in color classes: maya, blender, substance, zbrush, photoshop, unreal, unity, custom
+    ══════════════════════════════════════════════ -->*/
+    .software-sign-outer {
+      display: flex;
+      justify-content: flex-end;
+      /* ↓ EDIT padding-top to show more/fewer of the hanging strings above sign */
+      margin-top: 0;
+      padding-right: 0;
+      padding-bottom: 14px;
+      padding-left: 14px;
+      margin-bottom: 28px;
+    }
+    .software-sign-png-wrap {
+      position: relative;
+      display: inline-flex;
+      flex-direction: column;
+      align-items: center;
+    }
+    .software-sign-png {
+      width: auto;
+      height: 65px; /* adjust to match your sign PNG proportions */
+      display: block;
+      filter: drop-shadow(0 4px 6px rgba(0,0,0,0.2));
+    }
+    /* Icons row overlaid on the sign panel area */
+    .sw-icons-row {
+      position: absolute;
+      /* ↓ EDIT bottom to move icons up/down within the sign panel.
+           Increase to move icons up, decrease to move down.
+           Rule of thumb: if your sign panel is at the bottom 30% of the PNG,
+           set bottom to roughly 8-15% of the sign's displayed height. */
+      bottom: 8px;
+      left: 50%;
+      transform: translateX(-50%);
+      display: flex;
+      gap: 6px;
+      align-items: center;
+    }
+    .sw-icon {
+      width: 36px; height: 36px; /* 300px source → 36px display */
+      border-radius: 6px;
+      display: flex; align-items: center; justify-content: center;
+      font-size: 0.65rem; font-weight: 800; color: white;
+      text-transform: uppercase; letter-spacing: 0.5px;
+      box-shadow: 0 2px 0 rgba(0,0,0,0.25);
+      flex-shrink: 0; overflow: hidden;
+    }
+    .sw-icon img { width: 100%; height: 100%; object-fit: contain; }
+    .sw-icon.maya      { background: #0696D7; }
+    .sw-icon.blender   { background: #EA7600; }
+    .sw-icon.substance { background: #8B0000; font-size: 0.5rem; }
+    .sw-icon.zbrush    { background: #4B3F72; }
+    .sw-icon.photoshop { background: #001E36; color: #31A8FF; }
+    .sw-icon.unreal    { background: #1a1a1a; }
+    .sw-icon.unity     { background: #222; }
+    .sw-icon.custom    { background: #5a3010; }
+
+    /* ══════════════════════════════════════════════
+       SECONDARY MEDIA SECTION
+       Stack of individual media blocks below the primary.
+    ══════════════════════════════════════════════ */
+    .secondary-section {
+      display: flex;
+      flex-direction: column;
+      gap: 16px;
+    }
+    .media-block {
+      background: #e8dfc8;
+      border-radius: 16px;
+      overflow: hidden;
+      box-shadow: 0 6px 0 rgba(0,0,0,0.12);
+      padding: 10px 10px 0 10px;
+    }
+    .media-block-inner {
+      background: #1a2a3a;
+      border-radius: 8px;
+      overflow: hidden;
+    }
+    .media-block img { width: 100%; display: block; max-height: 400px; object-fit: contain; background: #111; }
+    .media-block .video-wrap { aspect-ratio: 16/9; position: relative; }
+    .media-block .video-wrap iframe { position: absolute; inset: 0; width: 100%; height: 100%; border: none; }
+    .media-block .sketchfab-wrap { aspect-ratio: 4/3; }
+    .media-block .sketchfab-wrap iframe { width: 100%; height: 100%; border: none; display: block; }
+    .media-caption {
+      padding: 10px 16px 14px;
+      font-size: 0.85rem;
+      color: var(--text-mid);
+      font-style: italic;
+    }
+
+    /* ══════════════════════════════════════════════
+       CAROUSEL MEDIA BLOCK
+       Use this instead of a plain .media-block when
+       you want to show multiple images with arrows.
+
+       HOW TO USE:
+       1. Add class="media-block carousel-block" to the outer div
+       2. Put all your images inside .carousel-track as .carousel-slide divs
+       3. Each slide contains one <img> (or video-wrap / sketchfab-wrap)
+       4. Add a .media-caption below .carousel-inner if you want a caption
+
+       ADDING SLIDES:
+       Copy one .carousel-slide block and paste inside .carousel-track.
+       Change the src path. That's it — arrows and dots update automatically.
+
+       EXAMPLE SLIDE (image):
+         <div class="carousel-slide">
+           <div class="media-block-inner">
+             <img src="assets/images/YOUR.jpg" alt="Description" />
+           </div>
+         </div>
+
+       EXAMPLE SLIDE (video):
+         <div class="carousel-slide">
+           <div class="media-block-inner">
+             <div class="video-wrap">
+               <iframe src="https://www.youtube.com/embed/YOUR_ID" allowfullscreen></iframe>
+             </div>
+           </div>
+         </div>
+    ══════════════════════════════════════════════ */
+    .carousel-block { padding: 10px 10px 0 10px; }
+
+    .carousel-block { padding: 10px 10px 0 10px; }
+
+    .carousel-inner {
+      position: relative;
+      overflow: hidden;
+      border-radius: 8px;
+    }
+    .carousel-track {
+      display: flex;
+      flex-direction: row;
+      flex-wrap: nowrap;
+      width: 100%;
+      /* No overflow:hidden here — it's on the parent now */
+      transition: transform 0.4s ease;
+    }
+    .carousel-slide {
+      min-width: 100%;
+      width: 100%;
+      flex-shrink: 0;
+      flex-grow: 0;
+    }
+
+    /* Prev / Next arrow buttons */
+    .carousel-btn {
+      position: absolute;
+      top: 50%; transform: translateY(-50%);
+      background: rgba(0,0,0,0.5);
+      border: none; color: white; cursor: pointer;
+      width: 36px; height: 36px; border-radius: 50%;
+      font-size: 1rem; line-height: 1;
+      display: flex; align-items: center; justify-content: center;
+      z-index: 2;
+      transition: background 0.2s;
+    }
+    .carousel-btn:hover { background: rgba(0,0,0,0.8); }
+    .carousel-btn.prev { left: 8px; }
+    .carousel-btn.next { right: 8px; }
+
+    /* Dot indicators */
+    .carousel-dots {
+      display: flex;
+      justify-content: center;
+      gap: 6px;
+      padding: 10px 0 4px;
+    }
+    .carousel-dot {
+      width: 8px; height: 8px;
+      border-radius: 50%;
+      background: rgba(90,60,16,0.25);
+      border: none; cursor: pointer;
+      transition: background 0.2s, transform 0.2s;
+      padding: 0;
+    }
+    .carousel-dot.active {
+      background: var(--sign-green);
+      transform: scale(1.3);
+    }
+
+    /* ── FOOTER ── */
+    footer {
+      background: var(--text-dark); color: rgba(255,255,255,0.6);
+      text-align: center; padding: 28px 20px; font-size: 0.85rem;
+    }
+    footer a { color: var(--awning-yellow, #f5c842); text-decoration: none; }
+    .footer-name { font-family: var(--font-display); font-size: 1.2rem; color: white; margin-bottom: 6px; }
+  </style>
+</head>
+<body>
+
+<!-- ── BACK BAR ── -->
+<div class="back-bar">
+  <a class="back-btn" href="index.html">← 3D Art</a>
+  <!--
+    EDIT: Change the title text to match your piece.
+  -->
+  <span class="back-bar-title">The Young Death Goddess</span>
+</div>
+
+<div class="page-wrap">
+
+  <!-- ══════════════════════════════════
+       TITLE SIGN (PNG)
+       GreenProjectSign.png hangs with strings visible above.
+       Text is overlaid via CSS so you never need to edit the PNG.
+
+       EDIT THE TITLE: Change the text inside .title-sign-text
+       MOVE SIGN UP/DOWN: Change margin-top on .title-sign-wrap in CSS
+         (negative = tucked behind awning, positive = lower on page)
+       MOVE TEXT ON SIGN: Change bottom% on .title-sign-text in CSS
+       RESIZE SIGN: Change max-width on .title-sign-img-wrap in CSS
+  ══════════════════════════════════ -->
+  <div class="title-sign-wrap">
+    <div class="title-sign-img-wrap">
+      <img class="title-sign-img" src="assets/images/GreenProjectSign.png" alt="" aria-hidden="true" />
+      <!-- ↓ EDIT THIS TEXT for each project page -->
+      <div class="title-sign-text">The Young Death Goddess</div>
+    </div>
+  </div>
+
+  <!-- ══════════════════════════════════
+       PRIMARY MEDIA
+       Show ONE of the options below — delete the others.
+
+       OPTION A — IMAGE:
+         <img src="assets/images/YOUR-IMAGE.jpg" alt="Title" />
+
+       OPTION B — VIDEO (YouTube/Vimeo):
+         <div class="video-wrap">
+           <iframe src="https://www.youtube.com/embed/YOUR_ID" allowfullscreen></iframe>
+         </div>
+
+       OPTION C — SKETCHFAB:
+         <div class="sketchfab-wrap">
+           <iframe src="https://sketchfab.com/models/YOUR_MODEL_ID/embed" allowfullscreen></iframe>
+         </div>
+  ══════════════════════════════════ -->
+  <div class="primary-frame-wrap">
+    <div class="primary-frame">
+      <div class="video-wrap">
+       <video controls width="100%" style="display:block; border-radius:8px;">
+         <source src="assets/images/3D/yellen/YellenRenderTurnaround.mp4" type="video/mp4" />
+        </video>
+      </div>
+    </div>
+
+    <!-- ══════════════════════════════════
+         SOFTWARE SIGN (PNG)
+         Shows your software icon sign with strings visible above it.
+
+         HOW TO SWAP IN THE SIGN PNG:
+         Change the src below to your sign PNG filename.
+         The sign should have transparent background with
+         strings at the top — they'll show above the sign panel.
+
+         HOW TO ADD SOFTWARE ICONS:
+         Add .sw-icon divs inside .sw-icons-row.
+         Use letter fallbacks now, swap for images later:
+
+           Letter fallback (now):
+             <div class="sw-icon maya" title="Autodesk Maya">M</div>
+
+           With logo image (when ready — 300×300px source):
+             <div class="sw-icon" title="Autodesk Maya">
+               <img src="assets/images/icons/maya-logo.png" alt="Maya" />
+             </div>
+
+         Available letter classes: maya, blender, substance,
+         zbrush, photoshop, unreal, unity, custom
+
+         POSITIONING: If your icons don't land on the sign panel,
+         adjust the `bottom` value in .sw-icons-row CSS.
+    ══════════════════════════════════ -->
+    <div class="software-sign-outer">
+      <div class="software-sign-png-wrap">
+        <img class="software-sign-png" src="assets/images/GreenSoftwaresSign.png" alt="" aria-hidden="true" />
+        <div class="sw-icons-row">
+          <!-- EDIT: Keep only the software you used, delete the rest -->
+          <div class="sw-icons-row">
+            <div class="sw-icon" title="ZBrush">
+              <img src="assets/images/Logos/ZBrushLogo.png" alt="ZBrush" />
+            </div>
+            <div class="sw-icon" title="Substance Painter">
+              <img src="assets/images/Logos/SubstancePainterLogo.png" alt="Substance Painter" />
+            </div>
+            <div class="sw-icon" title="Maya">
+              <img src="assets/images/Logos/MayaLogo.png" alt="Maya" />
+            </div>
+        </div>
+      </div>
+    </div>
+
+  </div><!-- /primary-frame-wrap -->
+
+  <!-- ══════════════════════════════════
+       SECONDARY MEDIA SECTION
+
+       THREE BLOCK TYPES AVAILABLE:
+
+       ① SINGLE IMAGE / VIDEO / SKETCHFAB:
+         <div class="media-block">
+           <div class="media-block-inner">
+             <img src="assets/images/YOUR.jpg" alt="Description" />
+           </div>
+           <div class="media-caption">Optional caption</div>
+         </div>
+
+       ② CAROUSEL (multiple images with arrows):
+         <div class="media-block carousel-block" data-carousel>
+           <div class="carousel-inner">
+             <div class="carousel-track">
+               <div class="carousel-slide">
+                 <div class="media-block-inner">
+                   <img src="assets/images/slide1.jpg" alt="Slide 1" />
+                 </div>
+               </div>
+               <div class="carousel-slide">
+                 <div class="media-block-inner">
+                   <img src="assets/images/slide2.jpg" alt="Slide 2" />
+                 </div>
+               </div>
+             </div>
+             <button class="carousel-btn prev" onclick="carouselMove(this,-1)">‹</button>
+             <button class="carousel-btn next" onclick="carouselMove(this,1)">›</button>
+           </div>
+           <div class="carousel-dots"></div>
+           <div class="media-caption">Optional caption for the whole carousel</div>
+         </div>
+
+       TO ADD MORE BLOCKS: copy either pattern above and paste
+       below the last closing </div> of .secondary-section.
+  ══════════════════════════════════ -->
+ 
+    <!-- Example carousel block -->
+    <div class="media-block carousel-block" data-carousel>
+      <div class="carousel-inner">
+        <div class="carousel-track">
+
+          <!-- SLIDE 1 — replace placeholder with your image -->
+          <div class="carousel-slide">
+            <div class="media-block-inner">
+              <img src="assets/images/3D/yellen/YellenRender1.png" alt="Front Render" />
+            </div>
+          </div>
+
+          <!-- SLIDE 2 -->
+          <div class="carousel-slide">
+            <div class="media-block-inner">
+              <img src="assets/images/3D/yellen/YellenRender3.png" alt="Down Render" />
+            </div>
+          </div>
+
+          <!-- SLIDE 3 -->
+          <div class="carousel-slide">
+            <div class="media-block-inner">
+              <img src="assets/images/3D/yellen/YellenRender2.png" alt="Top-Down Render" />
+            </div>
+          </div>
+
+          <!-- SLIDE 4 -->
+          <div class="carousel-slide">
+            <div class="media-block-inner">
+              <img src="assets/images/3D/yellen/YellenRender4.png" alt="Up Close Render" />
+            </div>
+          </div>
+          <!-- ADD MORE SLIDES: copy a .carousel-slide block above -->
+
+        </div><!-- /carousel-track -->
+        <button class="carousel-btn prev" onclick="carouselMove(this,-1)">‹</button>
+        <button class="carousel-btn next" onclick="carouselMove(this,1)">›</button>
+      </div><!-- /carousel-inner -->
+      <div class="carousel-dots"></div>
+      <div class="media-caption">Individual Renders </div>
+    </div>
+
+  </div><!-- /secondary-section -->
+
+</div><!-- /page-wrap -->
+
+<footer>
+  <div class="footer-name">Lily ★ Vengco</div>
+  <a href="index.html">← Back to Portfolio</a>
+</footer>
+
+<script>
+  /* ══════════════════════════════════════════════
+     CAROUSEL LOGIC
+     Automatically initialises every [data-carousel] block.
+     You don't need to touch this — just add/remove slides in HTML.
+  ══════════════════════════════════════════════ */
+  document.addEventListener('DOMContentLoaded', () => {
+    document.querySelectorAll('[data-carousel]').forEach(initCarousel);
+  });
+
+  function initCarousel(block) {
+    const track  = block.querySelector('.carousel-track');
+    const slides = block.querySelectorAll('.carousel-slide');
+    const dotsWrap = block.querySelector('.carousel-dots');
+    let current = 0;
+
+    // Build dot indicators
+    slides.forEach((_, i) => {
+      const dot = document.createElement('button');
+      dot.className = 'carousel-dot' + (i === 0 ? ' active' : '');
+      dot.setAttribute('aria-label', 'Go to slide ' + (i + 1));
+      dot.addEventListener('click', () => goTo(i));
+      dotsWrap.appendChild(dot);
+    });
+
+    function goTo(index) {
+      current = (index + slides.length) % slides.length;
+      track.style.transform = `translateX(-${current * 100}%)`;
+      block.querySelectorAll('.carousel-dot').forEach((d, i) => {
+        d.classList.toggle('active', i === current);
+      });
+    }
+
+    // Expose move function for arrow buttons
+    block._carouselGoTo = goTo;
+    block._carouselCurrent = () => current;
+  }
+
+  function carouselMove(btn, dir) {
+    const block = btn.closest('[data-carousel]');
+    const slides = block.querySelectorAll('.carousel-slide');
+    const current = block._carouselCurrent();
+    block._carouselGoTo(current + dir);
+  }
+
+  /* Touch/swipe support */
+  document.querySelectorAll('[data-carousel]').forEach(block => {
+    let startX = 0;
+    block.addEventListener('touchstart', e => { startX = e.touches[0].clientX; }, { passive: true });
+    block.addEventListener('touchend', e => {
+      const diff = startX - e.changedTouches[0].clientX;
+      if (Math.abs(diff) > 40) carouselMove(
+        block.querySelector('.carousel-btn'),
+        diff > 0 ? 1 : -1
+      );
+    });
+  });
+</script>
+
+</body>
+</html>

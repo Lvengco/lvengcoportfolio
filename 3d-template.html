@@ -1,0 +1,380 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <!--
+  ╔══════════════════════════════════════════════════════════╗
+  ║  3D WORK DETAIL PAGE TEMPLATE                            ║
+  ║  To create a new 3D piece page:                          ║
+  ║  1. Copy this file and rename it (e.g. sword-stone.html) ║
+  ║  2. Edit the CONFIG block in the <script> tag below      ║
+  ║  3. Fill in your media sections                          ║
+  ╚══════════════════════════════════════════════════════════╝
+  -->
+  <title>3D Work — Lily Vengco</title>
+  <link href="https://fonts.googleapis.com/css2?family=Fredoka+One&family=Nunito:wght@400;600;700;800&display=swap" rel="stylesheet" />
+  <style>
+    :root {
+      --awning-orange: #e8522a;
+      --awning-yellow: #f5c842;
+      --sky: #7ecef4;
+      --sky-mid: #5baed4;
+      --sky-dark: #3a8ab0;
+      --cream: #fdf6e3;
+      --sign-green: #5a9e2f;
+      --sign-green-dark: #3a7018;
+      --text-dark: #1a1000;
+      --text-mid: #4a3010;
+      --wood: #5a3010;
+      --font-display: 'Fredoka One', cursive;
+      --font-body: 'Nunito', sans-serif;
+    }
+
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+    html { scroll-behavior: smooth; }
+    body { font-family: var(--font-body); background: var(--sky); color: var(--text-dark); overflow-x: hidden; }
+
+    /* ── BACK BAR ── */
+    .back-bar {
+      background: url('assets/images/Awning.png') center top / 100% auto no-repeat; background-color: var(--awning-orange);
+      padding: 10px 24px; display: flex; align-items: center; gap: 16px;
+      position: sticky; top: 0; z-index: 100;
+    }
+    .back-btn {
+      font-family: var(--font-display); font-size: 14px; color: white;
+      text-decoration: none; background: rgba(0,0,0,0.25); border: none;
+      padding: 7px 16px; border-radius: 8px; cursor: pointer;
+      transition: background 0.2s; white-space: nowrap;
+      box-shadow: 0 3px 0 rgba(0,0,0,0.2);
+    }
+    .back-btn:hover { background: rgba(0,0,0,0.4); }
+    .back-bar-title { font-family: var(--font-display); color: white; font-size: 16px; text-shadow: 1px 2px 0 rgba(0,0,0,0.2); }
+
+    /* ── PAGE WRAPPER ── */
+    .page-wrap {
+      max-width: 680px;
+      margin: 0 auto;
+      padding: 32px 20px 80px;
+    }
+
+    /* ── TITLE SIGN ── */
+    .title-sign-wrap {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      margin-bottom: 20px;
+    }
+    .title-sign-string {
+      width: 3px; height: 24px;
+      background: var(--wood);
+      border-radius: 2px;
+    }
+    /* Cream mat behind the sign */
+    .title-sign-mat {
+      background: #e8dfc8;
+      border-radius: 12px;
+      padding: 8px 10px;
+      box-shadow: 0 5px 0 rgba(0,0,0,0.12);
+      width: 100%;
+    }
+    .title-sign {
+      background: var(--sign-green);
+      color: white;
+      font-family: var(--font-display);
+      font-size: clamp(1.2rem, 4vw, 1.7rem);
+      letter-spacing: 1px;
+      padding: 12px 32px;
+      border-radius: 8px;
+      box-shadow: 0 4px 0 var(--sign-green-dark), inset 0 1px 0 rgba(255,255,255,0.2);
+      text-shadow: 1px 2px 0 rgba(0,0,0,0.2);
+      text-align: center;
+      width: 100%;
+    }
+
+    /* ── PRIMARY MEDIA FRAME ── */
+    .primary-frame-wrap {
+      background: #e8dfc8;
+      border-radius: 16px;
+      padding: 14px 14px 0 14px;
+      box-shadow: 0 8px 0 rgba(0,0,0,0.15), 0 2px 24px rgba(0,0,0,0.15);
+      margin-bottom: 0;
+    }
+    .primary-frame {
+      background: #1a2a3a;
+      border-radius: 8px;
+      overflow: hidden;
+      position: relative;
+    }
+
+    /* Image */
+    .primary-frame img {
+      width: 100%; display: block;
+      max-height: 480px; object-fit: contain;
+      background: #111;
+    }
+
+    /* Video (YouTube/Vimeo iframe) */
+    .primary-frame .video-wrap {
+      aspect-ratio: 16/9; position: relative;
+    }
+    .primary-frame .video-wrap iframe {
+      position: absolute; inset: 0;
+      width: 100%; height: 100%; border: none;
+    }
+
+    /* Sketchfab embed */
+    .primary-frame .sketchfab-wrap {
+      aspect-ratio: 4/3;
+    }
+    .primary-frame .sketchfab-wrap iframe {
+      width: 100%; height: 100%; border: none; display: block;
+    }
+
+    /* Placeholder (remove when you add real content) */
+    .primary-placeholder {
+      aspect-ratio: 4/3;
+      display: flex; flex-direction: column;
+      align-items: center; justify-content: center; gap: 10px;
+      background: linear-gradient(135deg, #1a2a3a, #0a3a5a);
+      color: rgba(255,255,255,0.4);
+      font-size: 0.8rem; font-weight: 700; letter-spacing: 1px; text-transform: uppercase;
+    }
+    .primary-placeholder span { font-size: 3.5rem; }
+
+    /* ── SOFTWARE SIGN (below primary) ── */
+    .software-sign-wrap {
+      display: flex;
+      justify-content: flex-end;
+      /* sits inside the cream mat, no separate margin needed */
+      padding: 0 14px 14px 14px;
+      margin-bottom: 28px;
+    }
+    .software-sign {
+      display: flex;
+      align-items: center;
+      gap: 4px;
+      background: var(--sign-green);
+      padding: 7px 14px;
+      border-radius: 0 0 10px 10px;
+      box-shadow: 0 4px 0 var(--sign-green-dark);
+      position: relative;
+    }
+    /* Hanging strings above the sign */
+    .software-sign::before,
+    .software-sign::after {
+      content: '';
+      position: absolute;
+      top: -18px;
+      width: 2px; height: 18px;
+      background: var(--wood);
+      border-radius: 1px;
+    }
+    .software-sign::before { left: 20px; }
+    .software-sign::after  { right: 20px; }
+
+    /* Software icon pill */
+    .sw-icon {
+      width: 32px; height: 32px;
+      border-radius: 6px;
+      display: flex; align-items: center; justify-content: center;
+      font-size: 0.7rem; font-weight: 800; color: white;
+      text-transform: uppercase; letter-spacing: 0.5px;
+      box-shadow: 0 2px 0 rgba(0,0,0,0.2);
+      flex-shrink: 0;
+      overflow: hidden;
+    }
+    .sw-icon img { width: 100%; height: 100%; object-fit: contain; }
+    /* Fallback letter-based icons */
+    .sw-icon.maya      { background: #0696D7; }
+    .sw-icon.blender   { background: #EA7600; }
+    .sw-icon.substance { background: #8B0000; font-size: 0.55rem; }
+    .sw-icon.zbrush    { background: #4B3F72; }
+    .sw-icon.photoshop { background: #001E36; color: #31A8FF; }
+    .sw-icon.unreal    { background: #1a1a1a; }
+    .sw-icon.unity     { background: #222; }
+    .sw-icon.custom    { background: #5a3010; }
+
+    /* ── SECONDARY MEDIA SECTION ── */
+    .secondary-section {
+      display: flex;
+      flex-direction: column;
+      gap: 16px;
+    }
+
+    /* Each additional media block */
+    .media-block {
+      background: #e8dfc8;
+      border-radius: 16px;
+      overflow: hidden;
+      box-shadow: 0 6px 0 rgba(0,0,0,0.12);
+      padding: 10px 10px 0 10px;
+    }
+    .media-block-inner {
+      background: #1a2a3a;
+      border-radius: 8px;
+      overflow: hidden;
+    }
+    .media-block img {
+      width: 100%; display: block;
+      max-height: 400px; object-fit: contain;
+      background: #111;
+    }
+    .media-block .video-wrap {
+      aspect-ratio: 16/9; position: relative;
+    }
+    .media-block .video-wrap iframe {
+      position: absolute; inset: 0;
+      width: 100%; height: 100%; border: none;
+    }
+    .media-block .sketchfab-wrap {
+      aspect-ratio: 4/3;
+    }
+    .media-block .sketchfab-wrap iframe {
+      width: 100%; height: 100%; border: none; display: block;
+    }
+    /* Optional caption under a media block */
+    .media-caption {
+      padding: 10px 16px;
+      font-size: 0.85rem;
+      color: rgba(255,255,255,0.75);
+      font-style: italic;
+    }
+
+    /* ── FOOTER ── */
+    footer {
+      background: var(--text-dark); color: rgba(255,255,255,0.6);
+      text-align: center; padding: 28px 20px; font-size: 0.85rem;
+    }
+    footer a { color: var(--awning-yellow, #f5c842); text-decoration: none; }
+    .footer-name { font-family: var(--font-display); font-size: 1.2rem; color: white; margin-bottom: 6px; }
+  </style>
+</head>
+<body>
+
+<!-- ── BACK BAR ── -->
+<div class="back-bar">
+  <a class="back-btn" href="index.html#gallery-3d">← 3D Art</a>
+  <!--
+    EDIT: Change the title text below to match your piece.
+  -->
+  <span class="back-bar-title" id="page-title">Sword in the Stone</span>
+</div>
+
+<div class="page-wrap">
+
+  <!-- ══════════════════════════════════
+       TITLE SIGN
+       EDIT: Change the text inside .title-sign
+  ══════════════════════════════════ -->
+  <div class="title-sign-wrap">
+    <div class="title-sign-string"></div>
+    <div class="title-sign-mat">
+      <div class="title-sign">Sword in the Stone</div>
+    </div>
+  </div>
+
+  <!-- ══════════════════════════════════
+       PRIMARY MEDIA
+       Show ONE of these three options — delete the other two.
+
+       OPTION A — IMAGE:
+         <img src="assets/images/YOUR-IMAGE.jpg" alt="Title" />
+
+       OPTION B — VIDEO (YouTube/Vimeo):
+         <div class="video-wrap">
+           <iframe src="https://www.youtube.com/embed/YOUR_ID" allowfullscreen></iframe>
+         </div>
+
+       OPTION C — SKETCHFAB:
+         <div class="sketchfab-wrap">
+           <iframe src="https://sketchfab.com/models/YOUR_MODEL_ID/embed" allowfullscreen></iframe>
+         </div>
+  ══════════════════════════════════ -->
+  <div class="primary-frame-wrap">
+  <div class="primary-frame">
+    <!-- DELETE THIS PLACEHOLDER and replace with Option A, B, or C above -->
+    <div class="primary-placeholder">
+      <span>🗿</span>
+      add your primary image, video, or sketchfab embed here
+    </div>
+  </div><!-- /primary-frame -->
+
+  <!-- ══════════════════════════════════
+       SOFTWARE SIGN — lives inside the cream mat, bottom-right corner
+       Add one .sw-icon per software used.
+       Built-in color classes: maya, blender, substance, zbrush, photoshop, unreal, unity
+       For other software: use class="sw-icon custom" and change the letter/emoji
+
+       To use a real software logo image instead of a letter:
+         <div class="sw-icon">
+           <img src="assets/images/logo-maya.png" alt="Maya" />
+         </div>
+  ══════════════════════════════════ -->
+  <div class="software-sign-wrap">
+    <div class="software-sign">
+      <!-- EDIT: Keep only the software icons you used, delete the rest -->
+      <div class="sw-icon maya"      title="Autodesk Maya">M</div>
+      <div class="sw-icon substance" title="Substance Painter">Pt</div>
+      <div class="sw-icon blender"   title="Blender">B</div>
+      <div class="sw-icon zbrush"    title="ZBrush">Z</div>
+      <div class="sw-icon photoshop" title="Photoshop">Ps</div>
+    </div>
+  </div>
+
+  <!-- ══════════════════════════════════
+       SECONDARY MEDIA
+       Add as many .media-block sections as you want.
+       Each block can be an image, video, or sketchfab — same options as primary.
+       Add an optional .media-caption inside the block for a description.
+
+       TO ADD A NEW BLOCK: copy one .media-block and paste below the last one.
+       TO REMOVE: delete the whole .media-block div.
+  ══════════════════════════════════ -->
+  <div class="secondary-section">
+
+    <!-- Secondary block 1 — IMAGE example -->
+    <div class="media-block">
+      <div class="media-block-inner">
+        <!-- Replace with: <img src="assets/images/wireframe.jpg" alt="Wireframe view" /> -->
+        <div class="primary-placeholder" style="aspect-ratio:16/9">
+          <span>🖼️</span>
+          secondary image / video / sketchfab
+        </div>
+      </div>
+      <div class="media-caption">Optional caption — e.g. "Wireframe view"</div>
+    </div>
+
+    <!-- Secondary block 2 — VIDEO example -->
+    <div class="media-block">
+      <div class="media-block-inner">
+        <div class="primary-placeholder" style="aspect-ratio:16/9">
+          <span>▶</span>
+          secondary image / video / sketchfab
+        </div>
+      </div>
+      <div class="media-caption">Optional caption — e.g. "Turntable render"</div>
+    </div>
+
+    <!--
+      TO ADD MORE BLOCKS, copy this pattern:
+
+      <div class="media-block">
+        <div class="media-block-inner">
+          <img src="assets/images/YOUR.jpg" alt="Description" />
+        </div>
+        <div class="media-caption">Your caption here</div>
+      </div>
+    -->
+
+  </div><!-- /secondary-section -->
+
+</div><!-- /page-wrap -->
+
+<footer>
+  <div class="footer-name">Lily ★ Vengco</div>
+  <a href="index.html">← Back to Portfolio</a>
+</footer>
+
+</body>
+</html>

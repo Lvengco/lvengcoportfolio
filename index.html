@@ -1,0 +1,677 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Lily Vengco</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Fredoka+One&family=Nunito:ital,wght@0,400;0,600;0,700;0,800;1,400;1,700&display=swap" rel="stylesheet" />
+  <style>
+    :root {
+      --sky: #7ecef4;
+      --awning-orange: #e8522a; --awning-yellow: #f5c842;
+      --sign-green: #5a9e2f;   --sign-green-dark: #3a7018;
+      --sign-purple: #9b5ea2;  --sign-purple-dark: #6b3a75;
+      --sign-brown: #b8833a;   --sign-brown-dark: #7a5120;
+      --sign-red: #c4344a;     --sign-red-dark: #8f1f32;
+      --sign-blue: #3a7fc1;    --sign-blue-dark: #2a5f91;
+      --sign-orange: #e07a2f;  --sign-orange-dark: #b05818;
+      --sign-teal: #2a9d8f;    --sign-teal-dark: #1a6d62;
+      --wood: #5a3010;
+      --cream: #fdf6e3;
+      --text-dark: #2d1a00; --text-mid: #5a3a10;
+      --card-bg: rgba(255,255,255,0.85);
+      --font-display: 'Fredoka One', cursive;
+      --font-body: 'Nunito', sans-serif;
+    }
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+    html { scroll-behavior: smooth; }
+    body { font-family: var(--font-body); background: var(--cream); color: var(--text-dark); overflow-x: hidden; }
+
+    /* ===== HEADER ===== */
+    #site-header {
+      position: sticky; top: 0; z-index: 100; width: 100%;
+      background: url('assets/images/Awning.png') center top / 100% 100% no-repeat;
+      /* Fixed height based on awning aspect ratio at typical desktop width ~1200px.
+         Tweak this value in Live Server to match your awning's visible stripe height. */
+      height: 130px;
+      padding: 0 24px;
+      overflow: visible;
+    }
+    .header-inner {
+      display: flex; align-items: flex-start; justify-content: space-between;
+      overflow: visible; position: relative;
+      height: 100%;
+      gap: 8px;
+      min-width: 0;
+    }
+    /* No CSS scallop — baked into Awning.png */
+    /* logo sign styles now in .logo-sign-wrap / .logo-sign-img rules above */
+    nav { display: flex; align-items: flex-start; gap: clamp(2px, 0.5vw, 6px); overflow: visible; flex-shrink: 1; min-width: 0; }
+
+    /* Each nav item — the whole PNG slides down on hover/active.
+       The strings are baked into the PNG so the whole image animates together. */
+    .nav-sign-wrap {
+      display: flex; align-items: flex-start;
+      text-decoration: none; overflow: visible; cursor: pointer;
+      flex-shrink: 1; min-width: 0;
+      /* Resting position scales with sign height */
+      transform: translateY(clamp(-80px, -5.5vw, -80px));
+      transition: transform 0.45s cubic-bezier(0.34, 1.4, 0.64, 1);
+    }
+    .nav-sign-wrap:hover,
+    .nav-sign-wrap.active {
+      transform: translateY(clamp(-50px, -2.5vw, -40px));
+    }
+
+    /* The sign PNG — 444×560 source, scaled to display height */
+    .nav-sign-img {
+      height: clamp(60px, 13vw, 250px);
+      width: auto;
+      display: block;
+      filter: drop-shadow(0 4px 6px rgba(0,0,0,0.25));
+      transition: filter 0.2s;
+    }
+    /* Active: slight dim to feel pressed */
+    .nav-sign-wrap.active .nav-sign-img {
+      filter: drop-shadow(0 2px 3px rgba(0,0,0,0.3)) brightness(0.82);
+    }
+
+    /* Logo sign — 217×406px source */
+    .logo-sign-wrap {
+      display: flex; align-items: flex-start;
+      cursor: pointer; text-decoration: none; flex-shrink: 0;
+      /* Stays in flex flow so nav signs don't shift.
+         Pushed down below the awning via margin-top on the img. */
+      overflow: visible;
+      align-self: flex-start;
+      transition: transform 0.2s, filter 0.2s;
+    }
+    .logo-sign-wrap:hover { transform: translateY(4px); }
+    .logo-sign-img {
+      /* Push the logo down below the awning height (130px) */
+      margin-top: 90px;
+      /* Fixed size — never shrinks */
+      height: 140px;
+      width: auto;
+      display: block;
+      filter: drop-shadow(0 4px 8px rgba(0,0,0,0.3));
+      transition: filter 0.2s, margin-top 0.2s;
+    }
+    .logo-sign-wrap:hover .logo-sign-img {
+      filter: drop-shadow(0 3px 5px rgba(0,0,0,0.3)) brightness(0.9);
+    }
+    .header-social { display: flex; align-items: center; gap: 8px; padding-top: 14px; flex-shrink: 0; }
+    .header-social a { display: flex; align-items: center; justify-content: center; width: 32px; height: 32px; background: rgba(255,255,255,0.3); border-radius: 50%; color: white; text-decoration: none; font-size: 14px; transition: background 0.2s, transform 0.2s; }
+    .header-social a:hover { background: rgba(255,255,255,0.55); transform: scale(1.1); }
+
+    /* ===== PAGES ===== */
+    .page { display: none; position: relative; }
+    .page.active { display: block; }
+
+    /* ===== CATEGORY HERO (shared by all pages) ===== */
+    .cat-hero { background: linear-gradient(180deg, #7ecef4 0%, #a8dcf0 100%); position: relative; text-align: center; padding: 52px 20px 0; overflow: visible; }
+    .cat-hero-star { position: absolute; top: 18px; right: clamp(24px,6vw,120px); width: clamp(60px,8vw,100px); pointer-events: none; animation: starWobble 3s ease-in-out infinite; }
+    @keyframes starWobble { 0%,100% { transform: rotate(-8deg) scale(1); } 50% { transform: rotate(8deg) scale(1.07); } }
+    .cat-hero h1 { font-family: var(--font-display); font-size: clamp(3rem,8vw,5.5rem); color: white; text-shadow: 3px 4px 0 rgba(0,0,0,0.15); letter-spacing: 2px; line-height: 1; margin-bottom: 12px; }
+    .cat-hero p { font-size: clamp(0.9rem,2vw,1.15rem); color: rgba(255,255,255,0.92); text-shadow: 0 1px 3px rgba(0,0,0,0.15); }
+    .hero-scallop { width: 100%; display: block; margin-top: 40px; }
+
+    /* ===== BAG + CARD GRID (shared) ===== */
+    .projects-grid { display: flex; flex-wrap: wrap; justify-content: center; gap: 16px 32px; max-width: 1200px; margin: 0 auto 80px; padding: 48px 40px 0; overflow: visible; }
+    .bag-card-wrap { display: flex; flex-direction: column; align-items: center; width: 320px; flex-shrink: 0; }
+    .bag-img { display: none; }
+    .bag-thumbnails { position: absolute; bottom: 195px; left: 50%; transform: translateX(-50%); display: flex; gap: 8px; z-index: 3; pointer-events: none; }
+    .bag-thumb { width: 80px; height: 80px; border-radius: 10px; background: rgba(255,255,255,0.75); border: 2px solid rgba(255,255,255,0.9); box-shadow: 0 4px 12px rgba(0,0,0,0.18); opacity: 0; transform: translateY(20px); transition: opacity 0.35s ease, transform 0.45s cubic-bezier(0.34,1.45,0.64,1); flex-shrink: 0; display: flex; align-items: center; justify-content: center; overflow: hidden; }
+    .bag-thumb img { width: 100%; height: 100%; object-fit: cover; display: block; border-radius: 8px; }
+    .bag-thumb-placeholder { font-size: 1.8rem; }
+    .bag-thumb:nth-child(2) { transition-delay: 0.07s; }
+    .bag-thumb:nth-child(3) { transition-delay: 0.14s; }
+    .bag-card-wrap:hover .bag-thumb { opacity: 1; transform: translateY(0); }
+
+    /* ===== PROJECT CARD ===== */
+    .project-card { background: white; border-radius: 16px; overflow: hidden; box-shadow: 0 6px 0 rgba(0,0,0,0.1), 0 2px 16px rgba(0,0,0,0.08); transition: transform 0.3s cubic-bezier(0.34,1.56,0.64,1), box-shadow 0.3s; cursor: pointer; text-decoration: none; display: block; color: inherit; width: 100%; }
+    .bag-card-wrap:hover .project-card { transform: translateY(-6px); box-shadow: 0 14px 0 rgba(0,0,0,0.09), 0 8px 32px rgba(0,0,0,0.1); }
+
+    /* ===== PROJECT CARD — image placeholder ===== */
+    /* To add your cover image: replace the .project-card-img-placeholder div with:
+       <img class="project-card-img" src="assets/images/YOUR-IMAGE.jpg" alt="Project name" />
+       Recommended size: 640×440px or wider, any common format (jpg/png/webp) */
+    .project-card-img { width: 100%; height: 220px; object-fit: cover; display: block; }
+    .project-card-img-placeholder {
+      width: 100%; height: 220px; display: flex; flex-direction: column;
+      align-items: center; justify-content: center; gap: 8px;
+      background: linear-gradient(135deg, #e8f4fd, #d0eaf8);
+      color: var(--text-mid); font-size: 0.8rem; font-weight: 700; letter-spacing: 1px; text-transform: uppercase;
+    }
+    .project-card-img-placeholder span { font-size: 2.5rem; }
+    .project-card-body { padding: 18px 22px 22px; }
+    .project-card-tag { display: flex; gap: 6px; flex-wrap: wrap; margin-bottom: 10px; }
+    .tag { font-size: 10px; font-weight: 700; padding: 4px 8px; border-radius: 20px; color: white; font-family: var(--font-body); white-space: nowrap; }
+    .tag.green  { background: var(--sign-green); }  .tag.purple { background: var(--sign-purple); }
+    .tag.brown  { background: var(--sign-brown); }  .tag.red    { background: var(--sign-red); }
+    .tag.blue   { background: var(--sign-blue); }   .tag.teal   { background: var(--sign-teal); }
+    .tag.orange { background: var(--sign-orange); }
+    .project-card-title { font-family: var(--font-display); font-size: 1.35rem; color: var(--text-dark); margin-bottom: 6px; }
+    .project-card-subtitle { font-size: 0.9rem; color: var(--text-mid); margin-bottom: 16px; line-height: 1.5; }
+    .explore-btn { display: inline-block; margin-top: 4px; padding: 10px 24px; color: white; font-family: var(--font-display); font-size: 1rem; letter-spacing: 1.5px; text-transform: uppercase; border-radius: 8px; text-decoration: none; box-shadow: 0 4px 0 rgba(0,0,0,0.2); transition: transform 0.15s, box-shadow 0.15s, background 0.15s; cursor: pointer; border: none; }
+    .explore-btn:hover { transform: translateY(-2px); box-shadow: 0 6px 0 rgba(0,0,0,0.2); }
+    .explore-btn.blue   { background: var(--sign-blue); }   .explore-btn.blue:hover   { background: var(--sign-blue-dark); }
+    .explore-btn.teal   { background: var(--sign-teal); }   .explore-btn.teal:hover   { background: var(--sign-teal-dark); }
+    .explore-btn.orange { background: var(--sign-orange); } .explore-btn.orange:hover { background: var(--sign-orange-dark); }
+    .explore-btn.purple { background: var(--sign-purple); } .explore-btn.purple:hover { background: var(--sign-purple-dark); }
+    .explore-btn.green  { background: var(--sign-green); }  .explore-btn.green:hover  { background: var(--sign-green-dark); }
+    .explore-btn.red    { background: var(--sign-red); }    .explore-btn.red:hover    { background: var(--sign-red-dark); }
+    .explore-btn.brown  { background: var(--sign-brown); }  .explore-btn.brown:hover  { background: var(--sign-brown-dark); }
+
+    /* ===== 2D ILLUSTRATION GRID ===== */
+    .illus-grid { columns: 3 280px; gap: 12px; max-width: 1100px; margin: 48px auto 80px; padding: 0 32px; }
+    .illus-item { break-inside: avoid; margin-bottom: 12px; cursor: pointer; overflow: hidden; border-radius: 10px; display: block; }
+    .illus-item img { width: 100%; display: block; border-radius: 10px; transition: transform 0.3s ease, filter 0.3s ease; }
+    .illus-item:hover img { transform: scale(1.03); filter: brightness(0.9); }
+
+    /* ===== ILLUSTRATION CAPTIONS ===== */
+    .illus-item {
+      position: relative;
+    }
+    .illus-caption {
+      position: absolute;
+      bottom: 0; left: 0; right: 0;
+      background: linear-gradient(transparent, rgba(0,0,0,0.7));
+      color: white;
+      font-family: var(--font-display);
+      font-size: 0.95rem;
+      padding: 24px 12px 10px;
+      border-radius: 0 0 10px 10px;
+      opacity: 0;
+      transition: opacity 0.25s ease;
+      pointer-events: none;
+      text-align: center;
+    }
+    .illus-item:hover .illus-caption { opacity: 1; }
+
+    /* ===== ABOUT / MUSIC / SHARED ===== */
+    .sky-bg { background: linear-gradient(180deg, var(--sky) 0%, #b8e8ff 100%); padding: 70px 0 0 0; position: relative; }
+    .wave-divider { width: 100%; display: block; margin-bottom: -2px; }
+    .about-wrap { max-width: 900px; margin: 0 auto; padding: 60px 40px 80px; }
+    .about-hero { display: grid; grid-template-columns: 1fr 1fr; gap: 48px; align-items: center; margin-bottom: 60px; }
+    @media (max-width: 680px) { .about-hero { grid-template-columns: 1fr; } }
+    .about-photo { width: 100%; border-radius: 16px; box-shadow: 6px 6px 0 var(--sign-brown); display: block; }
+    .about-text h1 { font-family: var(--font-display); font-size: 2.8rem; color: var(--text-dark); margin-bottom: 16px; }
+    .about-text p { font-size: 1.05rem; line-height: 1.8; color: var(--text-mid); margin-bottom: 16px; }
+    .skills-section h2 { font-family: var(--font-display); font-size: 2rem; color: var(--text-dark); margin-bottom: 24px; }
+    .skills-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(180px,1fr)); gap: 16px; margin-bottom: 48px; }
+    .skill-card { background: var(--card-bg); border-radius: 12px; padding: 16px 20px; box-shadow: 0 4px 0 rgba(0,0,0,0.08); }
+    .skill-card h3 { font-family: var(--font-display); font-size: 1rem; margin-bottom: 8px; color: var(--text-dark); }
+    .skill-card p { font-size: 0.85rem; color: var(--text-mid); line-height: 1.5; }
+    .music-wrap { max-width: 800px; margin: 0 auto; padding: 60px 40px 80px; }
+    .music-wrap h1 { font-family: var(--font-display); font-size: 3rem; color: var(--text-dark); margin-bottom: 8px; }
+    .music-wrap .ep-label { font-family: var(--font-display); font-size: 1.1rem; color: var(--sign-purple); letter-spacing: 3px; text-transform: uppercase; margin-bottom: 20px; display: block; }
+    .music-wrap p { font-size: 1.05rem; line-height: 1.8; color: var(--text-mid); margin-bottom: 32px; max-width: 600px; }
+    .music-embed-placeholder { background: var(--card-bg); border-radius: 16px; padding: 32px; text-align: center; box-shadow: 0 4px 0 rgba(0,0,0,0.08); color: var(--text-mid); font-size: 0.95rem; margin-bottom: 24px; }
+    .music-embed-placeholder .note { font-size: 2.5rem; margin-bottom: 12px; }
+    .music-platform-links { display: flex; gap: 14px; flex-wrap: wrap; margin-top: 24px; }
+    .platform-btn { padding: 12px 28px; border-radius: 8px; font-family: var(--font-display); font-size: 1rem; letter-spacing: 1px; color: white; text-decoration: none; box-shadow: 0 4px 0 rgba(0,0,0,0.2); transition: transform 0.15s, box-shadow 0.15s; }
+    .platform-btn:hover { transform: translateY(-2px); box-shadow: 0 6px 0 rgba(0,0,0,0.2); }
+    .platform-btn.purple { background: var(--sign-purple); } .platform-btn.green { background: var(--sign-green); }
+    footer { background: var(--text-dark); color: rgba(255,255,255,0.7); text-align: center; padding: 32px 20px; font-size: 0.9rem; }
+    footer a { color: var(--awning-yellow); text-decoration: none; }
+    footer .footer-name { font-family: var(--font-display); font-size: 1.4rem; color: white; margin-bottom: 8px; }
+    .footer-socials { display: flex; justify-content: center; gap: 16px; margin: 16px 0; }
+    .footer-socials a { color: rgba(255,255,255,0.7); font-size: 0.85rem; transition: color 0.2s; }
+    .footer-socials a:hover { color: var(--awning-yellow); }
+
+    /* ===== ANIMATIONS ===== */
+    @keyframes floatIn { from { opacity: 0; transform: translateY(30px); } to { opacity: 1; transform: translateY(0); } }
+    .page.active .bag-card-wrap { animation: floatIn 0.5s ease both; }
+    .page.active .bag-card-wrap:nth-child(2) { animation-delay: 0.07s; }
+    .page.active .bag-card-wrap:nth-child(3) { animation-delay: 0.14s; }
+    @keyframes fadeIn { from { opacity: 0; } to { opacity: 1; } }
+    .page.active .illus-item { animation: fadeIn 0.4s ease both; }
+
+    /* ===== RESPONSIVE ===== */
+    @media (max-width: 700px) {
+      #site-header { padding: 0 10px; } nav { gap: 5px; }
+      .nav-sign { font-size: 11px; padding: 7px 9px; }
+      .header-social { gap: 4px; } .header-social a { width: 26px; height: 26px; font-size: 12px; }
+      .projects-grid { padding: 48px 16px 0; }
+      .about-wrap, .music-wrap { padding: 40px 16px 60px; }
+      .illus-grid { columns: 2 140px; padding: 0 12px; }
+    }
+  </style>
+</head>
+<body>
+
+<header id="site-header">
+  <div class="header-inner">
+    <a class="logo-sign-wrap" href="#" onclick="scrollToTop(event)">
+      <img class="logo-sign-img" src="assets/images/LilyVengcoSign.png" alt="Lily Vengco" />
+    </a>
+    <nav>
+      <a class="nav-sign-wrap active" href="#" onclick="showPage('builds', this, event)">
+        <img class="nav-sign-img" src="assets/images/BuildsSign.png" alt="Builds" />
+      </a>
+      <a class="nav-sign-wrap" href="#" onclick="showPage('gallery', this, event)">
+        <img class="nav-sign-img" src="assets/images/GallerySign.png" alt="Gallery" />
+      </a>
+      <a class="nav-sign-wrap" href="#" onclick="showPage('animation', this, event)">
+        <img class="nav-sign-img" src="assets/images/AnimationSign.png" alt="Animation" />
+      </a>
+      <a class="nav-sign-wrap" href="#" onclick="showPage('music', this, event)">
+        <img class="nav-sign-img" src="assets/images/MusicSign.png" alt="Music" />
+      </a>
+      <a class="nav-sign-wrap" href="#" onclick="showPage('about', this, event)">
+        <img class="nav-sign-img" src="assets/images/AboutSign.png" alt="About" />
+      </a>
+    </nav>
+    <div class="header-social">
+      <a href="mailto:lavengco@outlook.com" title="Email" aria-label="Email">✉</a>
+      <a href="https://www.instagram.com/lilyvengco/" target="_blank" aria-label="Instagram">
+        <svg width="14" height="14" viewBox="0 0 24 24" fill="currentColor"><path d="M12 2.163c3.204 0 3.584.012 4.85.07 3.252.148 4.771 1.691 4.919 4.919.058 1.265.069 1.645.069 4.849 0 3.205-.012 3.584-.069 4.849-.149 3.225-1.664 4.771-4.919 4.919-1.266.058-1.644.07-4.85.07-3.204 0-3.584-.012-4.849-.07-3.26-.149-4.771-1.699-4.919-4.92-.058-1.265-.07-1.644-.07-4.849 0-3.204.013-3.583.07-4.849.149-3.227 1.664-4.771 4.919-4.919 1.266-.057 1.645-.069 4.849-.069zm0-2.163c-3.259 0-3.667.014-4.947.072-4.358.2-6.78 2.618-6.98 6.98-.059 1.281-.073 1.689-.073 4.948 0 3.259.014 3.668.072 4.948.2 4.358 2.618 6.78 6.98 6.98 1.281.058 1.689.072 4.948.072 3.259 0 3.668-.014 4.948-.072 4.354-.2 6.782-2.618 6.979-6.98.059-1.28.073-1.689.073-4.948 0-3.259-.014-3.667-.072-4.947-.196-4.354-2.617-6.78-6.979-6.98-1.281-.059-1.69-.073-4.949-.073zm0 5.838c-3.403 0-6.162 2.759-6.162 6.162s2.759 6.163 6.162 6.163 6.162-2.759 6.162-6.163c0-3.403-2.759-6.162-6.162-6.162zm0 10.162c-2.209 0-4-1.79-4-4 0-2.209 1.791-4 4-4s4 1.791 4 4c0 2.21-1.791 4-4 4zm6.406-11.845c-.796 0-1.441.645-1.441 1.44s.645 1.44 1.441 1.44c.795 0 1.439-.645 1.439-1.44s-.644-1.44-1.439-1.44z"/></svg>
+      </a>
+      <a href="https://www.youtube.com/channel/UC3xsCpmBGsyxOgPngeBtn0g" target="_blank" aria-label="YouTube">
+        <svg width="14" height="14" viewBox="0 0 24 24" fill="currentColor"><path d="M23.495 6.205a3.007 3.007 0 0 0-2.088-2.088c-1.87-.501-9.396-.501-9.396-.501s-7.507-.01-9.396.501A3.007 3.007 0 0 0 .527 6.205a31.247 31.247 0 0 0-.522 5.805 31.247 31.247 0 0 0 .522 5.783 3.007 3.007 0 0 0 2.088 2.088c1.868.502 9.396.502 9.396.502s7.506 0 9.396-.502a3.007 3.007 0 0 0 2.088-2.088 31.247 31.247 0 0 0 .5-5.783 31.247 31.247 0 0 0-.5-5.805zM9.609 15.601V8.408l6.264 3.602z"/></svg>
+      </a>
+      <a href="https://www.tiktok.com/@its.stanza" target="_blank" aria-label="TikTok">
+        <svg width="14" height="14" viewBox="0 0 24 24" fill="currentColor"><path d="M19.59 6.69a4.83 4.83 0 0 1-3.77-4.25V2h-3.45v13.67a2.89 2.89 0 0 1-2.88 2.5 2.89 2.89 0 0 1-2.89-2.89 2.89 2.89 0 0 1 2.89-2.89c.28 0 .54.04.79.1V9.01a6.33 6.33 0 0 0-.79-.05 6.34 6.34 0 0 0-6.34 6.34 6.34 6.34 0 0 0 6.34 6.34 6.34 6.34 0 0 0 6.33-6.34V8.69a8.18 8.18 0 0 0 4.78 1.52V6.75a4.85 4.85 0 0 1-1.01-.06z"/></svg>
+      </a>
+    </div>
+  </div>
+</header>
+
+<!-- ===== BUILDS PAGE ===== -->
+<div id="page-builds" class="page active">
+  <div class="cat-hero">
+    <img class="cat-hero-star" src="assets/images/smallSketchyStar.png" alt="" aria-hidden="true" />
+    <h1>Builds</h1>
+    <p>Real-time interactive worlds built for PC and XR</p>
+    <svg class="hero-scallop" viewBox="0 0 1440 54" preserveAspectRatio="none" xmlns="http://www.w3.org/2000/svg">
+      <path d="M0,0 C60,54 120,0 180,27 C240,54 300,0 360,27 C420,54 480,0 540,27 C600,54 660,0 720,27 C780,54 840,0 900,27 C960,54 1020,0 1080,27 C1140,54 1200,0 1260,27 C1320,54 1380,0 1440,27 L1440,54 L0,54 Z" fill="#fdf6e3"/>
+    </svg>
+  </div>
+  <div class="projects-grid">
+
+    <!-- BROOMSMITH
+         To add cover image replace the placeholder div with:
+         <img class="project-card-img" src="assets/images/broomsmith-cover.jpg" alt="Broomsmith" /> -->
+    <div class="bag-card-wrap">
+      <a class="project-card" href="broomsmith.html">
+        <img class="project-card-img" src="assets/images/2DIllustrationGallery/BroomsmithTitleSplash1.png" alt="Broomsmith" />
+        <div class="project-card-body">
+          <div class="project-card-tag">
+            <span class="tag blue">Unreal Engine</span>
+            <span class="tag teal">VR</span>
+            <span class="tag orange">C++</span>
+            <span class="tag green">Blueprints</span>
+          </div>
+          <div class="project-card-title">Broomsmith</div>
+          <div class="project-card-subtitle">A VR game where players clean, paint and repair magical items.</div>
+          <span class="explore-btn blue">Explore →</span>
+        </div>
+      </a>
+    </div>
+
+    <!-- HEY BARTENDER
+         To add cover image replace the placeholder div with:
+         <img class="project-card-img" src="assets/images/hey-bartender-cover.jpg" alt="Hey Bartender" /> -->
+    <div class="bag-card-wrap">
+      <a class="project-card" href="hey-bartender.html">
+        <img class="project-card-img" src="assets/images/HeyBartenderImgs/HeyBartenderSplash.png" alt="Hey Bartender" />
+        <div class="project-card-body">
+          <div class="project-card-tag">
+            <span class="tag teal">Unity</span>
+            <span class="tag orange">C#</span>
+            <span class="tag green">XR Toolkit</span>
+          </div>
+          <div class="project-card-title">Hey Bartender</div>
+          <div class="project-card-subtitle">A VR bartending simulator with NPC customers, drink crafting, and a full tutorial system.</div>
+          <button class="explore-btn teal">Explore →</button>
+        </div>
+      </a>
+    </div>
+
+    <!-- DOUGH OR DIE
+         To add cover image replace the placeholder div with:
+         <img class="project-card-img" src="assets/images/dough-or-die-cover.jpg" alt="Dough or Die" /> -->
+    <div class="bag-card-wrap">
+      <a class="project-card" href="dough-or-die.html">
+        <img class="project-card-img" src="assets/images/DoughOrDieImgs/DoughOrDieLogo.png" alt="Dough or Die" />
+        <div class="project-card-body">
+          <div class="project-card-tag">
+            <span class="tag blue">Unreal Engine</span>
+            <span class="tag teal">Blueprints</span>
+          </div>
+          <div class="project-card-title">Dough or Die</div>
+          <div class="project-card-subtitle">A PC game where a bakery simulator meets an underground fighting arena.</div>
+          <button class="explore-btn blue">Explore →</button>
+        </div>
+      </a>
+    </div>
+
+  </div>
+</div>
+
+<!-- ===== GALLERY PAGE ===== -->
+<div id="page-gallery" class="page">
+  <div class="cat-hero">
+    <img class="cat-hero-star" src="assets/images/smallSketchyStar.png" alt="" aria-hidden="true" />
+    <h1>Gallery</h1>
+    <p>Sculpted characters, painted worlds, and rendered scenes</p>
+    <svg class="hero-scallop" viewBox="0 0 1440 54" preserveAspectRatio="none" xmlns="http://www.w3.org/2000/svg">
+      <path d="M0,0 C60,54 120,0 180,27 C240,54 300,0 360,27 C420,54 480,0 540,27 C600,54 660,0 720,27 C780,54 840,0 900,27 C960,54 1020,0 1080,27 C1140,54 1200,0 1260,27 C1320,54 1380,0 1440,27 L1440,54 L0,54 Z" fill="#fdf6e3"/>
+    </svg>
+  </div>
+  <div class="projects-grid">
+
+    <div class="bag-card-wrap">
+      <div class="project-card" onclick="showSubPage('illus')" style="cursor:pointer;">
+        <img class="project-card-img" src="https://images.squarespace-cdn.com/content/v1/63e05e179b38187047c74ce1/d34f9408-8095-4841-8915-907412b46b2a/Wizard+Stairway.png" alt="2D Illustrations" loading="lazy" />
+        <div class="project-card-body">
+          <div class="project-card-tag">
+            <span class="tag green">Clip Studio Paint</span>
+            <span class="tag blue">Photoshop</span>
+          </div>
+          <div class="project-card-title">2D Illustrations</div>
+          <div class="project-card-subtitle">Digital paintings, character sheets, and concept art with a storytelling eye.</div>
+          <span class="explore-btn teal">View Gallery →</span>
+        </div>
+      </div>
+    </div>
+
+    <div class="bag-card-wrap">
+      <div class="project-card" onclick="showSubPage('threed')" style="cursor:pointer;">
+        <img class="project-card-img" src="https://images.squarespace-cdn.com/content/v1/63e05e179b38187047c74ce1/d2aa9e94-2760-4d42-8d9d-ade81720080f/A4_Vengco_Render1.png" alt="3D Art" loading="lazy" />
+        <div class="project-card-body">
+          <div class="project-card-tag">
+            <span class="tag purple">Maya</span>
+            <span class="tag blue">Substance Painter</span>
+            <span class="tag teal">Blender</span>
+          </div>
+          <div class="project-card-title">3D Art</div>
+          <div class="project-card-subtitle">Sculpted characters, environment assets, and rendered scenes.</div>
+          <span class="explore-btn teal">View Projects →</span>
+        </div>
+      </div>
+    </div>
+
+  </div>
+</div>
+
+<!-- ===== 2D ILLUSTRATIONS SUB-PAGE ===== -->
+<div id="page-illus" class="page">
+  <div class="cat-hero">
+    <img class="cat-hero-star" src="assets/images/smallSketchyStar.png" alt="" aria-hidden="true" />
+    <h1>2D Illustrations</h1>
+    <p>Digital paintings, character sheets, and concept art</p>
+    <svg class="hero-scallop" viewBox="0 0 1440 54" preserveAspectRatio="none" xmlns="http://www.w3.org/2000/svg">
+      <path d="M0,0 C60,54 120,0 180,27 C240,54 300,0 360,27 C420,54 480,0 540,27 C600,54 660,0 720,27 C780,54 840,0 900,27 C960,54 1020,0 1080,27 C1140,54 1200,0 1260,27 C1320,54 1380,0 1440,27 L1440,54 L0,54 Z" fill="#fdf6e3"/>
+    </svg>
+  </div>
+  <div style="max-width:1100px; margin: 24px auto 0; padding: 0 32px;">
+    <button onclick="showSubPage('gallery-back')" class="explore-btn teal" style="font-size:0.85rem; padding: 8px 18px;">← Back to Gallery</button>
+  </div>
+  <!--
+    HOW TO ADD ILLUSTRATIONS:
+    <div class="illus-item" onclick="openLightbox('assets/images/YOUR-FILE.jpg', 'Title')">
+      <img src="assets/images/YOUR-FILE.jpg" alt="Title" loading="lazy" />
+    </div>
+  -->
+  <!--
+    HOW TO ADD ILLUSTRATIONS:
+    Copy one .illus-item block and paste it inside .illus-grid.
+    Change the src path and the caption text.
+
+    <div class="illus-item">
+      <img src="assets/images/YOUR-FILE.jpg" alt="Title" loading="lazy" />
+      <div class="illus-caption">Your Caption Here</div>
+    </div>
+  -->
+  <div class="illus-grid">
+    <div class="illus-item">
+      <img src="https://images.squarespace-cdn.com/content/v1/63e05e179b38187047c74ce1/d34f9408-8095-4841-8915-907412b46b2a/Wizard+Stairway.png" alt="Wizard Stairway (2025)" loading="lazy" />
+      <div class="illus-caption">Wizard Stairway (2025)</div>
+    </div>
+    <div class="illus-item">
+      <img src="assets/images/2DIllustrationGallery/Decieved By The Gods- Balance Final.png" alt="Decieved By The Gods (2023)" loading="lazy" />
+      <div class="illus-caption">Decieved By The Gods- Balance Final (2023)</div>
+    </div>
+    <div class="illus-item">
+      <img src="assets/images/2DIllustrationGallery/Liz and the mites.png" alt="Liz and the Mites (2023)" loading="lazy" />
+      <div class="illus-caption">Liz and the Mites (2023)</div>
+    </div>
+    <div class="illus-item">
+      <img src="assets/images/2DIllustrationGallery/BroomsmithTitleSplash1.png" alt="Broomsmith First Title Splash (2025)" loading="lazy" />
+      <div class="illus-caption">Broomsmith First Title Splash (2025)</div>
+    </div>
+    <div class="illus-item">
+      <img src="assets/images/2DIllustrationGallery/BroomsmithTitleSplash2.png" alt="Broomsmith Second Title Splash (2026)" loading="lazy" />
+      <div class="illus-caption">Broomsmith Second Title Splash (2026)</div>
+    </div>
+    <div class="illus-item">
+      <img src="assets/images/2DIllustrationGallery/Lily Self Portrait.png" alt="Lily Self Portrait (2022)" loading="lazy" />
+      <div class="illus-caption">Lily Self Portrait (2022)</div>
+    </div>
+    <div class="illus-item">
+      <img src="assets/images/2DIllustrationGallery/Meeting in the Square.png" alt="Meeting in the Square (2022)" loading="lazy" />
+      <div class="illus-caption">Meeting in the Square (2022)</div>
+    </div>
+    <div class="illus-item">
+      <img src="assets/images/2DIllustrationGallery/bearsmp 2.png" alt="Hidden Features (2022)" loading="lazy" />
+      <div class="illus-caption">Hidden Features (2022)</div>
+    </div>
+  </div>
+</div>
+
+<!-- ===== 3D ART SUB-PAGE ===== -->
+<div id="page-threed" class="page">
+  <div class="cat-hero">
+    <img class="cat-hero-star" src="assets/images/smallSketchyStar.png" alt="" aria-hidden="true" />
+    <h1>3D Art</h1>
+    <p>Sculpted characters, environment assets, and rendered scenes</p>
+    <svg class="hero-scallop" viewBox="0 0 1440 54" preserveAspectRatio="none" xmlns="http://www.w3.org/2000/svg">
+      <path d="M0,0 C60,54 120,0 180,27 C240,54 300,0 360,27 C420,54 480,0 540,27 C600,54 660,0 720,27 C780,54 840,0 900,27 C960,54 1020,0 1080,27 C1140,54 1200,0 1260,27 C1320,54 1380,0 1440,27 L1440,54 L0,54 Z" fill="#fdf6e3"/>
+    </svg>
+  </div>
+  <div style="max-width:1200px; margin: 24px auto 0; padding: 0 40px;">
+    <button onclick="showSubPage('gallery-back')" class="explore-btn teal" style="font-size:0.85rem; padding: 8px 18px;">← Back to Gallery</button>
+  </div>
+  <!--
+    HOW TO ADD 3D PROJECTS: copy a bag-card-wrap block.
+    Replace the img src or add a placeholder div.
+    Link the explore button to your 3d-template.html copy for that piece.
+  -->
+  <div class="projects-grid">
+    <div class="bag-card-wrap">
+      <a class="project-card" href="swordinthestone.html">
+        <img class="project-card-img" src="https://images.squarespace-cdn.com/content/v1/63e05e179b38187047c74ce1/d2aa9e94-2760-4d42-8d9d-ade81720080f/A4_Vengco_Render1.png" alt="3D Render" loading="lazy" />
+        <div class="project-card-body">
+          <div class="project-card-tag">
+            <span class="tag purple">Maya</span>
+            <span class="tag blue">Substance Painter</span>
+          </div>
+          <div class="project-card-title">Sword In The Stone</div>
+          <div class="project-card-subtitle">Textured and efficently retopologized Maya model.</div>
+          <button class="explore-btn purple">Explore →</button>
+        </div>
+      </a>
+    </div>
+
+
+    <div class="bag-card-wrap">
+     <a class="project-card" href="yellen.html">
+        <img class="project-card-img" src="https://images.squarespace-cdn.com/content/v1/63e05e179b38187047c74ce1/d2aa9e94-2760-4d42-8d9d-ade81720080f/A4_Vengco_Render1.png" alt="3D Render" loading="lazy" />
+        <div class="project-card-body">
+          <div class="project-card-tag">
+            <span class="tag green">zBrush</span>
+            <span class="tag purple">Maya</span>  
+            <span class="tag blue">Substance Painter</span>
+          </div>
+          <div class="project-card-title">The Young Death Goddess</div>
+          <div class="project-card-subtitle">Sculpted and textured and efficently retopologized with baked maps!</div>
+          <button class="explore-btn purple">Explore →</button>
+        </div>
+      </a>
+    </div>
+
+    <div class="bag-card-wrap">
+     <a class="project-card" href="sprout.html">
+        <img class="project-card-img" src="https://images.squarespace-cdn.com/content/v1/63e05e179b38187047c74ce1/d2aa9e94-2760-4d42-8d9d-ade81720080f/A4_Vengco_Render1.png" alt="3D Render" loading="lazy" />
+        <div class="project-card-body">
+          <div class="project-card-tag">
+            <span class="tag green">Blender</span>
+          </div>
+          <div class="project-card-title">Sprout The Robot</div>
+          <div class="project-card-subtitle">Modeled and textured entirely in Blender!</div>
+          <button class="explore-btn purple">Explore →</button>
+        </div>
+      </a>
+    </div>
+  </div>
+</div>
+
+<!-- ===== ANIMATION PAGE ===== -->
+<div id="page-animation" class="page">
+  <div class="cat-hero">
+    <img class="cat-hero-star" src="assets/images/smallSketchyStar.png" alt="" aria-hidden="true" />
+    <h1>Animation</h1>
+    <p>Sequential storytelling and motion work combining rhythm and visuals</p>
+    <svg class="hero-scallop" viewBox="0 0 1440 54" preserveAspectRatio="none" xmlns="http://www.w3.org/2000/svg">
+      <path d="M0,0 C60,54 120,0 180,27 C240,54 300,0 360,27 C420,54 480,0 540,27 C600,54 660,0 720,27 C780,54 840,0 900,27 C960,54 1020,0 1080,27 C1140,54 1200,0 1260,27 C1320,54 1380,0 1440,27 L1440,54 L0,54 Z" fill="#fdf6e3"/>
+    </svg>
+  </div>
+  <!--
+    HOW TO ADD ANIMATION PROJECTS: same pattern as Builds.
+    Copy a bag-card-wrap block for each project.
+  -->
+  <div class="projects-grid">
+    <div class="bag-card-wrap">
+      <a class="project-card" href="dudesindistress.html">
+        <img class="project-card-img" src="assets/images/Animation/AKnight'sGuide/Fire.png" alt="Dudes in Distress" loading="lazy" />
+        <div class="project-card-body">
+          <div class="project-card-tag">
+            <span class="tag red">Clip Studio Paint</span>
+            <span class="tag orange">After Effects</span>
+            <span class="tag brown">Premiere Pro</span>
+          </div>
+          <div class="project-card-title">Dudes In Distress </div>
+          <div class="project-card-subtitle">A comedic motion media video answering the age old question: how can a knight can save a Dude in Distress?</div>
+          <button class="explore-btn orange">Explore →</button>
+        </div>
+      </a>
+    </div>
+    
+    <div class="bag-card-wrap">
+      <a class="project-card" href="waitinginthewings.html">
+        <img class="project-card-img" src="assets/images/Animation/WaitingInTheWings/ww44.jpg" alt="Waiting In The Wings" loading="lazy" />
+        <div class="project-card-body">
+          <div class="project-card-tag">
+            <span class="tag blue">Clip Studio Paint</span>
+            <span class="tag green">Premiere Pro</span>
+          </div>
+          <div class="project-card-title">Waiting In The Wings </div>
+          <div class="project-card-subtitle">An emotional animatic visualizing the song "Waiting In The Wings" by Alan Menken and Glenn Slater.</div>
+          <button class="explore-btn orange">Explore →</button>
+        </div>
+      </a>
+    </div>
+  </div>
+</div>
+
+<!-- ===== MUSIC PAGE ===== -->
+<div id="page-music" class="page">
+  <div class="sky-bg">
+    <svg class="wave-divider" viewBox="0 0 1440 60" preserveAspectRatio="none" xmlns="http://www.w3.org/2000/svg">
+      <path d="M0,60 C240,0 480,60 720,30 C960,0 1200,60 1440,30 L1440,60 Z" fill="#fdf6e3"/>
+    </svg>
+  </div>
+  <div class="music-wrap">
+    <span class="ep-label">EP 01</span>
+    <h1>Music</h1>
+    <p>Though visual art and creative technology is my primary passion, I'm also a trained musician! I released three tracks in high school — all in 2020 — and everything was written, produced, and performed entirely by me.</p>
+    <div class="music-embed-placeholder">
+      <div class="note">🎵</div>
+      <p style="margin:0; color: var(--text-mid);">Paste your Spotify or SoundCloud embed code here.<br><small>Replace this div with your &lt;iframe&gt; embed.</small></p>
+    </div>
+    <div class="music-platform-links">
+      <a class="platform-btn purple" href="https://open.spotify.com" target="_blank">Spotify</a>
+      <a class="platform-btn green" href="https://soundcloud.com" target="_blank">SoundCloud</a>
+    </div>
+  </div>
+</div>
+
+<!-- ===== ABOUT PAGE ===== -->
+<div id="page-about" class="page">
+  <div class="sky-bg">
+    <svg class="wave-divider" viewBox="0 0 1440 60" preserveAspectRatio="none" xmlns="http://www.w3.org/2000/svg">
+      <path d="M0,60 C240,0 480,60 720,30 C960,0 1200,60 1440,30 L1440,60 Z" fill="#fdf6e3"/>
+    </svg>
+  </div>
+  <div class="about-wrap">
+    <div class="about-hero">
+      <img class="about-photo" src="https://images.squarespace-cdn.com/content/v1/63e05e179b38187047c74ce1/ed75933d-febb-48c6-bc06-db5997f59f05/QBJBozEg.jpeg" alt="Lily Vengco" />
+      <div class="about-text">
+        <h1>Hey there! 👋</h1>
+        <p>My name is Lily Vengco — an artist of many specialties hailing from Massachusetts, currently based in the sunny city of Savannah, Georgia!</p>
+        <p>I'm experienced in both audio and visual arts and bring these together in every project I'm part of. As a professionally trained musician and singer, I apply rhythmic sensibility to my animations, stories, and videos — paired with 3D modeling, material design, and 2D digital art.</p>
+        <p>My passion has guided me to <strong>Immersive Reality</strong> — a field where art, sound, and technology combine to create something genuinely impactful. The idea of improving lives through both entertainment and human health is one of the greatest purposes an artist could have.</p>
+      </div>
+    </div>
+    <div class="skills-section">
+      <h2>Skills &amp; Tools</h2>
+      <div class="skills-grid">
+        <div class="skill-card"><h3>🎮 Game Engines</h3><p>Unreal Engine, Unity, VR Expansion Plugin, MetaXR</p></div>
+        <div class="skill-card"><h3>🧊 3D &amp; VFX</h3><p>Autodesk Maya, Blender, ZBrush, Substance Painter</p></div>
+        <div class="skill-card"><h3>🎨 2D &amp; Motion</h3><p>Clip Studio Paint, Photoshop, After Effects, Premiere Pro</p></div>
+        <div class="skill-card"><h3>💻 Programming</h3><p>C++, Python, Blueprints, Unity C#</p></div>
+        <div class="skill-card"><h3>🎵 Music</h3><p>Vocals, Guitar, Piano, Production</p></div>
+        <div class="skill-card"><h3>🌐 Platforms</h3><p>NVIDIA Omniverse, OpenUSD, Houdini</p></div>
+      </div>
+    </div>
+</div>
+
+
+<footer>
+  <div class="footer-name">Lily ★ Vengco</div>
+  <div class="footer-socials">
+    <a href="mailto:lavengco@outlook.com">Email</a>
+    <a href="https://www.instagram.com/lilyvengco/" target="_blank">Instagram</a>
+    <a href="https://www.youtube.com/channel/UC3xsCpmBGsyxOgPngeBtn0g" target="_blank">YouTube</a>
+    <a href="https://www.tiktok.com/@its.stanza" target="_blank">TikTok</a>
+  </div>
+  <p>© 2024 Lily Vengco. All rights reserved.</p>
+</footer>
+
+<script>
+  function showPage(id, linkEl, e) {
+    if (e) e.preventDefault();
+    document.querySelectorAll('.page').forEach(p => p.classList.remove('active'));
+    document.getElementById('page-' + id).classList.add('active');
+    document.querySelectorAll('.nav-sign-wrap').forEach(a => a.classList.remove('active'));
+    if (linkEl) linkEl.classList.add('active');
+    window.scrollTo({ top: 0, behavior: 'smooth' });
+  }
+
+  function showSubPage(id) {
+    if (id === 'gallery-back') {
+      document.querySelectorAll('.page').forEach(p => p.classList.remove('active'));
+      document.getElementById('page-gallery').classList.add('active');
+      document.querySelectorAll('.nav-sign-wrap').forEach(a => a.classList.remove('active'));
+      document.querySelector('[onclick*="gallery"]').classList.add('active');
+      window.scrollTo({ top: 0, behavior: 'smooth' });
+      return;
+    }
+    document.querySelectorAll('.page').forEach(p => p.classList.remove('active'));
+    document.getElementById('page-' + id).classList.add('active');
+    window.scrollTo({ top: 0, behavior: 'smooth' });
+  }
+
+  function scrollToTop(e) {
+    e.preventDefault();
+    window.scrollTo({ top: 0, behavior: 'smooth' });
+  }
+
+  // Lightbox removed — gallery uses hover captions instead
+</script>
+</body>
+</html>
