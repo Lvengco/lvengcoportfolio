@@ -10,12 +10,13 @@
       --awning-orange: #e8522a;
       --awning-yellow: #f5c842;
       --cream: #fdf6e3;
+      --awning-cream: #FFDFA5;
       --sky: #7ecef4;
       --sky-mid: #5baed4;
       --sky-dark: #3a8ab0;
-      --accent: #e8522a;
+      --accent: #E47D43;
       --accent-dark: #b03a18;
-      --tab-active: #e8522a;
+      --tab-active: #cd682e;
       --tab-inactive: #b8a080;
       --text-dark: #1a1000;
       --text-mid: #4a3010;
@@ -30,17 +31,15 @@
     html { scroll-behavior: smooth; }
     body { font-family: var(--font-body); background: var(--cream); color: var(--text-dark); overflow-x: hidden; }
 
-    /* ===== TOP AWNING =====
-       Full-width awning PNG at the very top, sticky.
-       The back button and title sit ON TOP of it. */
+    /* ===== TOP AWNING ===== */
     .top-awning {
       position: sticky;
       top: 0;
       z-index: 100;
       width: 100%;
-      /* Awning.png is 2377×321px — height scales proportionally */
-      height: 100px;
+      height: 130px;
       background: url('assets/images/Awning.png') center top / 100% 100% no-repeat;
+      background-color: transparent;
       display: flex;
       align-items: center;
       padding: 0 24px;
@@ -60,22 +59,23 @@
     }
 
     /* ===== SPLASH =====
-       To add splash art, replace the .splash-placeholder div with:
-       <img class="splash-img" src="assets/images/broomsmith-splash.jpg" alt="Broomsmith" />
-       Recommended: wide landscape, at least 1400px wide */
+       Pulled up with negative margin-top so it tucks
+       behind the sticky awning — no gap visible.
+       Adjust margin-top to taste (more negative = higher up). */
     .splash {
-      width: 100%; height: clamp(280px, 45vw, 520px);
-      overflow: hidden; background: #111;
+      width: 100%;
+      height: clamp(280px, 45vw, 520px);
+      overflow: hidden;
+      background: #111;
       display: flex; align-items: center; justify-content: center;
+      /* ↓ EDIT: pulls splash up behind the awning */
+      margin-top: -45px;
+      position: relative;
+      z-index: 1; /* below sticky awning (z:100) */
     }
     .splash-img {
       width: 100%; height: 100%; object-fit: cover; object-position: center top;
       display: block;
-    }
-    .splash-placeholder {
-      width: 100%; height: 100%; display: flex; align-items: center; justify-content: center;
-      background: linear-gradient(135deg, #1a0a3a, #3a1060, #0a2a4a);
-      font-size: 6rem;
     }
 
     /* ===== ROLE BANNER ===== */
@@ -84,6 +84,7 @@
       padding: 14px 32px; display: flex; align-items: center; gap: 12px;
       font-family: var(--font-display); font-size: clamp(1.1rem, 3vw, 1.5rem);
       box-shadow: 0 4px 0 var(--accent-dark);
+      position: relative; z-index: 2;
     }
     .role-icon { font-size: 1.4em; }
 
@@ -121,49 +122,20 @@
     }
     .video-placeholder span { font-size: 3rem; }
 
-    /* ===== MID AWNING DIVIDER =====
-       Same Awning.png reused as a section break.
-       Replace with a different image if you want a variation. */
-    .mid-awning {
-      width: 100%;
-      height: 100px;
-      background: url('assets/images/Awning.png') center top / 100% 100% no-repeat;
-    }
-
-    /* ===== TAB BUTTONS =====
-       Each tab is an image button (your custom artwork).
-       To use custom button images, replace the .tab-btn-text span with:
-       <img src="assets/images/TechnicalBtn.png" alt="Technical Contributions" />
-       and remove the background/padding from .tab-btn.
-
-       Button image filenames expected (change to match yours):
-         assets/images/TechnicalBtn.png
-         assets/images/VisualBtn.png
-         assets/images/LeadershipBtn.png
-    */
-    .tab-bar {
-      background: var(--sky);
-      display: flex; justify-content: center;
-      gap: 20px; padding: 24px 24px 0;
+    /* ===== TAB BUTTON DIVIDER =====
+       Cream stripe with tab buttons sitting on top of it.
+       Sits BEFORE the mid-awning so the flow is:
+       overview → cream tab strip → awning → contributions panel */
+    .tab-divider {
+      background: var(--awning-cream);
+      padding: 15px 24px 15px;
+      display: flex;
+      justify-content: center;
+      gap: 20px;
       flex-wrap: wrap;
     }
 
-    /* ── Image button style (used when you have custom art) ── */
-    .tab-btn {
-      cursor: pointer; border: none; background: none; padding: 0;
-      transition: transform 0.15s, filter 0.2s;
-      flex-shrink: 0;
-    }
-    .tab-btn img {
-      height: 64px; /* adjust to match your button art height */
-      width: auto;
-      display: block;
-      filter: drop-shadow(0 3px 5px rgba(0,0,0,0.25));
-    }
-    .tab-btn:hover img { filter: drop-shadow(0 4px 8px rgba(0,0,0,0.3)) brightness(1.05); transform: translateY(-2px); }
-    .tab-btn.active img { filter: drop-shadow(0 2px 3px rgba(0,0,0,0.3)) brightness(0.82); transform: translateY(1px); }
-
-    /* ── Fallback text button (shown until you have image assets) ── */
+    /* ── Fallback text button ── */
     .tab-btn-fallback {
       cursor: pointer; border: none;
       background: var(--tab-inactive); color: white;
@@ -172,12 +144,38 @@
       box-shadow: 0 4px 0 rgba(0,0,0,0.2);
       transition: background 0.2s, transform 0.15s, box-shadow 0.15s;
       white-space: nowrap;
+      /* Hang below the cream strip into the awning */
+      margin-bottom: 0;
     }
     .tab-btn-fallback:hover { transform: translateY(-2px); box-shadow: 0 6px 0 rgba(0,0,0,0.2); }
     .tab-btn-fallback.active {
       background: var(--tab-active);
       box-shadow: 0 2px 0 rgba(0,0,0,0.2);
       transform: translateY(2px);
+    }
+
+    /* ── Image button (when you have custom art) ── */
+    .tab-btn {
+      cursor: pointer; border: none; background: none; padding: 0;
+      transition: transform 0.15s, filter 0.2s; flex-shrink: 0;
+    }
+    .tab-btn img {
+      height: 64px; width: auto; display: block;
+      filter: drop-shadow(0 3px 5px rgba(0,0,0,0.25));
+    }
+    .tab-btn:hover img { filter: drop-shadow(0 4px 8px rgba(0,0,0,0.3)) brightness(1.05); transform: translateY(-2px); }
+    .tab-btn.active img { filter: drop-shadow(0 2px 3px rgba(0,0,0,0.3)) brightness(0.82); transform: translateY(1px); }
+
+    /* ===== MID AWNING DIVIDER =====
+       Background is sky blue so the transparent parts
+       of the PNG show sky, not white. */
+    .mid-awning {
+      width: 100%;
+      height: 110px;
+      background-color: var(--sky);
+      background-image: url('assets/images/AwningWithoutTop.png');
+      background-size: 100% 100%;
+      background-repeat: no-repeat;
     }
 
     /* ===== CONTRIBUTIONS PANEL ===== */
@@ -210,7 +208,6 @@
     }
     .dropdown-entry.open .dropdown-body { max-height: 2000px; padding: 20px; }
 
-    /* Content blocks inside dropdowns */
     .entry-subtitle { font-family: var(--font-display); font-size: 1.1rem; color: var(--awning-yellow); margin-bottom: 8px; }
     .entry-text { font-size: 0.92rem; line-height: 1.75; color: rgba(255,255,255,0.88); margin-bottom: 16px; }
     .entry-link { display: inline-flex; align-items: center; gap: 6px; color: var(--awning-yellow); font-size: 0.88rem; font-weight: 700; text-decoration: none; margin-bottom: 16px; transition: color 0.2s; }
@@ -237,9 +234,9 @@
 </div>
 
 <!-- ===== SPLASH IMAGE =====
-     Your current code had a typo: <div img class="splash-img" ...>
-     A div can't have src/alt — it needs to be an <img> tag.
-     Fixed below. Just make sure the path is correct.
+     Pulled up behind the awning via margin-top: -130px.
+     The awning is sticky z-index:100 so it always sits on top.
+     To adjust how far it tucks: change margin-top on .splash in CSS.
 -->
 <div class="splash">
   <img class="splash-img" src="assets/images/2DIllustrationGallery/BroomsmithTitleSplash1.png" alt="Broomsmith Splash Art" />
@@ -259,7 +256,7 @@
       <p>Broomsmith is a VR spellcasting and item repair experience set in a magical workshop. Players harness the powers of magical creatures to clean, paint, and restore a variety of magical items to boost their WELP ratings.</p>
     </div>
     <div class="video-box">
-      <!-- Replace this div with your iframe when ready:
+      <!-- Replace with your iframe when ready:
            <iframe src="https://www.youtube.com/embed/YOUR_VIDEO_ID" allow="autoplay; encrypted-media" allowfullscreen></iframe> -->
       <div class="video-placeholder">
         <span>▶</span>
@@ -269,23 +266,18 @@
   </div>
 </section>
 
-<!-- ===== MID AWNING DIVIDER =====
-     Uses the same Awning.png as the top.
-     To swap for a different image:
-     Change the background-image URL in the .mid-awning CSS rule above. -->
-<div class="mid-awning"></div>
-
-<!-- ===== TAB BUTTONS =====
-     Currently using fallback text buttons.
+<!-- ===== TAB BUTTONS on cream divider strip =====
+     Buttons sit on a cream background strip.
+     The mid-awning comes AFTER, creating the visual of:
+     overview (blue) → cream strip with buttons → awning → contributions (blue)
 
      WHEN YOU HAVE CUSTOM BUTTON IMAGES:
      Replace each <button class="tab-btn-fallback"> with:
        <button class="tab-btn active" data-tab="technical" onclick="switchTab(this)">
          <img src="assets/images/TechnicalBtn.png" alt="Technical Contributions" />
        </button>
-     Name your files whatever you like, just update the src paths.
 -->
-<div class="tab-bar">
+<div class="tab-divider">
   <button class="tab-btn-fallback active" data-tab="technical" onclick="switchTab(this)">
     Technical Contributions
   </button>
@@ -296,6 +288,12 @@
     Leadership Process
   </button>
 </div>
+
+<!-- ===== MID AWNING DIVIDER =====
+     background-color is sky blue so transparent parts of the PNG
+     show blue instead of white.
+     To change: edit background-color in .mid-awning CSS. -->
+<div class="mid-awning"></div>
 
 <!-- ===== CONTRIBUTIONS CONTENT ===== -->
 <section class="contributions-section">
@@ -341,16 +339,49 @@
 
       <div class="dropdown-entry">
         <div class="dropdown-header" onclick="toggleDropdown(this)">
-          VR Physics Grab System
+          VR Locomotion System
           <span class="dropdown-arrow">▼</span>
         </div>
         <div class="dropdown-body">
-          <p class="entry-subtitle">Overview</p>
-          <p class="entry-text"><!-- Describe the grab system work here --></p>
+          <p class="entry-subtitle">Creating Joystick Walking</p>
+          <p class="entry-text">Though I utilized the Unreal VR Template pawn in Broomsmith, the pawn was missing some key features. The pawn only had teleportation instead of joystick movement. I implemented character movement and a paired footstep function that would calculate 2D Distance and play back a footstep if the distance was greater than a set threshold.</p>
           <div class="entry-img-row">
             <!-- <img src="assets/images/grab-1.jpg" alt="Grab system screenshot" />
                  <img src="assets/images/grab-2.jpg" alt="Grab system detail" /> -->
           </div>
+        </div>
+      </div>
+
+       <div class="dropdown-entry">
+        <div class="dropdown-header" onclick="toggleDropdown(this)">
+          Physics Grab Method
+          <span class="dropdown-arrow">▼</span>
+        </div>
+        <div class="dropdown-body">
+          <p class="entry-subtitle">The Problem</p>
+          <p class="entry-text"> Blueprint.</p>
+        </div>
+      </div>
+
+      <div class="dropdown-entry">
+        <div class="dropdown-header" onclick="toggleDropdown(this)">
+          Cleaning & Painting Detection
+          <span class="dropdown-arrow">▼</span>
+        </div>
+        <div class="dropdown-body">
+          <p class="entry-subtitle">The Problem</p>
+          <p class="entry-text"> Blueprint.</p>
+        </div>
+      </div>
+
+      <div class="dropdown-entry">
+        <div class="dropdown-header" onclick="toggleDropdown(this)">
+          Modular Character Profiles & Messages
+          <span class="dropdown-arrow">▼</span>
+        </div>
+        <div class="dropdown-body">
+          <p class="entry-subtitle">The Problem</p>
+          <p class="entry-text"> Blueprint.</p>
         </div>
       </div>
 
@@ -365,7 +396,7 @@
 
       <div class="dropdown-entry">
         <div class="dropdown-header" onclick="toggleDropdown(this)">
-          Environment Art &amp; Materials
+          Environment & Props
           <span class="dropdown-arrow">▼</span>
         </div>
         <div class="dropdown-body">
@@ -380,7 +411,7 @@
 
       <div class="dropdown-entry">
         <div class="dropdown-header" onclick="toggleDropdown(this)">
-          UI Design &amp; HUD
+          2D Artwork
           <span class="dropdown-arrow">▼</span>
         </div>
         <div class="dropdown-body">
@@ -399,7 +430,7 @@
 
       <div class="dropdown-entry">
         <div class="dropdown-header" onclick="toggleDropdown(this)">
-          Sprint Planning &amp; Task Management
+          Sprint Planning & Agile Framework
           <span class="dropdown-arrow">▼</span>
         </div>
         <div class="dropdown-body">
@@ -411,7 +442,7 @@
 
       <div class="dropdown-entry">
         <div class="dropdown-header" onclick="toggleDropdown(this)">
-          Team Communication &amp; Decision Making
+          Game Developers Conference (GDC) Push 
           <span class="dropdown-arrow">▼</span>
         </div>
         <div class="dropdown-body">
@@ -432,10 +463,7 @@
 </footer>
 
 <script>
-  /* ── TAB SWITCHING ──
-     Works for both .tab-btn (image) and .tab-btn-fallback (text) buttons */
   function switchTab(el) {
-    // Deactivate all buttons (handle both button classes)
     document.querySelectorAll('.tab-btn, .tab-btn-fallback').forEach(t => t.classList.remove('active'));
     el.classList.add('active');
     const tabId = el.dataset.tab;
@@ -443,7 +471,6 @@
     document.getElementById('tab-' + tabId).classList.add('active');
   }
 
-  /* ── DROPDOWN TOGGLE ── */
   function toggleDropdown(headerEl) {
     const entry = headerEl.closest('.dropdown-entry');
     const isOpen = entry.classList.contains('open');
