@@ -279,10 +279,10 @@
 -->
 <div class="tab-divider">
   <button class="tab-btn-fallback active" data-tab="technical" onclick="switchTab(this)">
-    Technical Contributions
+    Notable Technical Contributions
   </button>
   <button class="tab-btn-fallback" data-tab="visual" onclick="switchTab(this)">
-    Visual Contributions
+    Notable Visual Contributions
   </button>
   <button class="tab-btn-fallback" data-tab="leadership" onclick="switchTab(this)">
     Leadership Process
@@ -334,6 +334,10 @@
           <a class="entry-link" href="https://github.com/Lvengco/BroomsmithCodeSamples/tree/main" target="_blank">🔗 View on GitHub</a>
           <p class="entry-subtitle">The Result</p>
           <p class="entry-text">Frame hitches during cleaning analysis were eliminated entirely. The system handles multiple simultaneous render target reads without impacting VR frame rate, and is fully extensible. Any new repairable object just has to pass its render target in and receives a normalized progress float back. This system is used to read both the cleaning and painting progress of our meshes.</p>
+          <p class="entry-text">The async progress method can be called via node in any Blueprint Editor, as seen below!</p>
+          <div class="entry-img-row">
+            <img src="assets/images/BroomsmithImgs/CleaningProgressAsyncNode.png" alt="Aync Node In Action" />
+          </div>
         </div>
       </div>
 
@@ -343,11 +347,13 @@
           <span class="dropdown-arrow">▼</span>
         </div>
         <div class="dropdown-body">
-          <p class="entry-subtitle">Creating Joystick Walking</p>
+          <p class="entry-subtitle">Creating Joystick Walking & Footstep Audio</p>
           <p class="entry-text">Though I utilized the Unreal VR Template pawn in Broomsmith, the pawn was missing some key features. The pawn only had teleportation instead of joystick movement. I implemented character movement and a paired footstep function that would calculate 2D Distance and play back a footstep if the distance was greater than a set threshold.</p>
           <div class="entry-img-row">
-            <!-- <img src="assets/images/grab-1.jpg" alt="Grab system screenshot" />
-                 <img src="assets/images/grab-2.jpg" alt="Grab system detail" /> -->
+            <img src="assets/images/BroomsmithImgs/DoFootstep.png" alt="Do Footstep Function" />
+          </div>
+          <div class="entry-img-row">
+            <img src="assets/images/BroomsmithImgs/MovementFunction.png" alt="Movement Function" />
           </div>
         </div>
       </div>
@@ -358,8 +364,13 @@
           <span class="dropdown-arrow">▼</span>
         </div>
         <div class="dropdown-body">
-          <p class="entry-subtitle">The Problem</p>
-          <p class="entry-text"> Blueprint.</p>
+          <p class="entry-subtitle">Overwriting The Original</p>
+          <p class="entry-text"> Physics Grabbing was a much larger and more complicated system, because I ended up entirely overwriting the existing grab component. The custom grab component has custom dispatchers, events, and grab types that could be easily accessed and changed for any item it was attached to. It features addons such as a floating niagara system and animation on drop, lighting up and changing colors on distance-hovering/activating, and more. </p>
+          <p class="entry-text"> Below is an embed of the full Distance Grabbing function including distance-grab lasers. Unreal does not have a distance grab function, so myself and a helper replicated the Unity distance-grabbing feature.</p>
+          <div class="entry-img-row">
+            <iframe src="https://blueprintue.com/render/_p59tz_y/" scrolling="no" allowfullscreen></iframe>
+          </div>
+          <p class="entry-text">Having a custom grab component also meant more customization for grab types. Maybe some items could or couldn’t be grabbed at a distance, maybe some could only rotate because they were constrained. Maybe some could float on drop and some couldn’t!</p>
         </div>
       </div>
 
@@ -369,8 +380,16 @@
           <span class="dropdown-arrow">▼</span>
         </div>
         <div class="dropdown-body">
-          <p class="entry-subtitle">The Problem</p>
-          <p class="entry-text"> Blueprint.</p>
+          <p class="entry-subtitle">How It Works In Editor</p>
+          <p class="entry-text"> Cleaning and painting detection is very accurate, and this is because the cube traces from the sponge snails and painting tools draw onto a mesh’s render target utilizing UV Collision. This process is smooth and quick, and the size of a tool’s radius can be easily swapped out. </p>
+          <div class="entry-img-row">
+            <img src="assets/images/BroomsmithImgs/DrawToRenderTarget.png" alt="DrawToRenderTarget node Images" />
+          </div>
+          <p class="entry-text">The render targets are set on BP Construct and link to each Repairable Item’s (The item a player is tasked with repairing by customers) dynamic instance material. </p>
+          <p class="entry-subtitle">Material Setup</p>
+          <div class="entry-img-row">
+            <img src="assets/images/BroomsmithImgs/Material Render Target 1.png" alt="Render target Material Setup" />
+          </div>
         </div>
       </div>
 
@@ -380,8 +399,17 @@
           <span class="dropdown-arrow">▼</span>
         </div>
         <div class="dropdown-body">
-          <p class="entry-subtitle">The Problem</p>
-          <p class="entry-text"> Blueprint.</p>
+          <p class="entry-subtitle">Designer Friendly Texting System</p>
+          <p class="entry-text"> I created a blueprint system that simulated and facilitated choice-based text messaging between itself and the user- and for ease of designer use I made the dialogue completely editable from a data table, as seen in the example below.</p>
+          <div class="entry-img-row">
+            <img src="assets/images/BroomsmithImgs/MessagingDataTable.png" alt="Messaging Data Table" />
+          </div>
+          <p class="entry-text">Each text message would also communicate the length of its string to the listening text message blueprint which, based on a customizable string-per-second threshold, would play the “...” animation for a certain amount of time before posting a message. It felt more real this way!</p>
+          <p class="entry-subtitle">Designer Friendly Profiles</p>
+          <p class="entry-text">Data tables were once again used for designer ease when editing inside the game. All information needed from each customer is packed into these data table entries, ensuring that customers can be easily added into the system in the future.</p>
+          <div class="entry-img-row">
+            <img src="assets/images/BroomsmithImgs/ModularProfileDatatable.png" alt="Modular Profile Data Table" />
+          </div>
         </div>
       </div>
 
@@ -415,10 +443,21 @@
           <span class="dropdown-arrow">▼</span>
         </div>
         <div class="dropdown-body">
-           <p class="entry-subtitle">Profile Photos</p>
-            <p class="entry-text"><!-- Describe your UI work here --></p>
+            <p class="entry-subtitle">Designer Guides</p>
+            <p class="entry-text">Some Repairable Items come in pieces that will connect together later. To ensure that 3D modelers were creating items that aligned with my ideas, I drew out items in two separate formats: one in default material colors and one in colors that indicated separate pieces.</p>
             <div class="entry-img-row">
-              <img src="assets/images/BroomsmithImgs/Kierra PFP.png" alt="C++ Code Segment" />
+              <img src="assets/images/BroomsmithImgs/Stargazer.png" alt="Stargazer Default Image" />
+            </div>
+            <div class="entry-img-row">
+              <img src="assets/images/BroomsmithImgs/Stargazer Pieces.png" alt="Stargazer Pieces Image" />
+            </div>
+           <p class="entry-subtitle">Profile Photos</p>
+            <p class="entry-text">2D images for character profile photos.</p>
+            <div class="entry-img-row">
+              <img src="assets/images/BroomsmithImgs/Kierra PFP.png" alt="Kierra PFP" />
+            </div>
+            <div class="entry-img-row">
+              <img src="assets/images/BroomsmithImgs/Gustave PFP.png" alt="Gustave PFP" />
             </div>
           </div>
         </div>
@@ -440,8 +479,11 @@
         </div>
         <div class="dropdown-body">
           <p class="entry-subtitle">Process</p>
-          <p class="entry-text"><!-- Describe your planning/leadership process --></p>
-          <a class="entry-link" href="#" target="_blank">🔗 View Sprint Board</a>
+          <p class="entry-text">During this project I managed and onboraded two full-time members and six outsourced, part-time members. This included five designers spread across 2D illustration, 3D modeling, and Graphic Design, two sound designers and one assistant systems designer. The team worked within the Plastic SCM/Gluon repository system and reported task progress through google sheets in accordance with our Agile sprint style!</p>
+          <div class="entry-img-row">
+              <img src="assets/images/BroomsmithImgs/TaskTrackingExample.png" alt="Task Tracking Snapshot" />
+          </div>
+          <p class="entry-text">I organized weekly meetings and during critical work days/periods the team would report their progress and standups. On multiple occasions I solved technical and teammate conflicts to ensure a respectful and productive student environment!</p>
         </div>
       </div>
 
@@ -451,7 +493,7 @@
           <span class="dropdown-arrow">▼</span>
         </div>
         <div class="dropdown-body">
-          <p class="entry-text"><!-- Your leadership notes here --></p>
+          <p class="entry-text">Thanks to SCAD, I had the opportunity to attend the 2026 Game Developers conference (GDC) in San Francisco and show off Broomsmith! Testers had great feedback and loved our beta.</p>
         </div>
       </div>
 
