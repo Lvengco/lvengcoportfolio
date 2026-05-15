@@ -253,7 +253,7 @@
   <div class="overview-inner">
     <div class="overview-box">
       <h2>Overview</h2>
-      <p>Broomsmith is a VR spellcasting and item repair experience set in a magical workshop. Players harness the powers of magical creatures to clean, paint, and restore a variety of magical items to boost their WELP ratings.</p>
+      <p>In Dough or Die, players must manage and fulfill customer orders in their Grandmother's italian bakery while also building their giant bread golem to fight OTHER golems in awesome underground fights. Maybe they'll find some upgrades for the bakery along the way... </p>
     </div>
     <div class="video-box">
       <iframe src="https://www.youtube.com/embed/WKxF89UMAk8?si=DWqfw8Zmh56r_4Ln" allow="autoplay; encrypted-media" allowfullscreen></iframe>
@@ -310,12 +310,14 @@
 
       <div class="dropdown-entry">
         <div class="dropdown-header" onclick="toggleDropdown(this)">
-          Render Target Async Reading Method
+          The Perk System
           <span class="dropdown-arrow">▼</span>
         </div>
         <div class="dropdown-body">
           <p class="entry-subtitle">The Problem</p>
-          <p class="entry-text">Standard Unreal Blueprint render target pixel reading caused frame hitches in VR. I needed an async GPU readback that could be callable from a Blueprint.</p>
+          <p class="entry-text">The Dough or Die programming team had created a perk system which allowed players to obtain and activate various abilities and upgrades. However, the system was spread out across too many different Blueprints and managers, and the team didn't have a unified approach to managing and accessing these perks.</p>
+          <p class="entry-subtitle">What I Did</p>
+          <p class="entry-text">Because their team was busy with other systems, I read through their existing code base myself to ensure I could work around their existing work without causing conflicts. Then I began my work!
           <div class="entry-img-row">
             <img src="assets/images/BroomsmithImgs/RenderTargetImg1.png" alt="C++ Code Segment" />
           </div>
@@ -326,24 +328,7 @@
           <p class="entry-text">Frame hitches during cleaning analysis were eliminated entirely. The system handles multiple simultaneous render target reads without impacting VR frame rate, and is fully extensible. Any new repairable object just has to pass its render target in and receives a normalized progress float back. This system is used to read both the cleaning and painting progress of our meshes.</p>
         </div>
       </div>
-
-      <div class="dropdown-entry">
-        <div class="dropdown-header" onclick="toggleDropdown(this)">
-          VR Locomotion System
-          <span class="dropdown-arrow">▼</span>
-        </div>
-        <div class="dropdown-body">
-          <p class="entry-subtitle">Creating Joystick Walking</p>
-          <p class="entry-text">Though I utilized the Unreal VR Template pawn in Broomsmith, the pawn was missing some key features. The pawn only had teleportation instead of joystick movement. I implemented character movement and a paired footstep function that would calculate 2D Distance and play back a footstep if the distance was greater than a set threshold.</p>
-          <div class="entry-img-row">
-            <!-- <img src="assets/images/grab-1.jpg" alt="Grab system screenshot" />
-                 <img src="assets/images/grab-2.jpg" alt="Grab system detail" /> -->
-          </div>
-        </div>
-      </div>
-      <!-- ADD MORE TECHNICAL DROPDOWNS HERE — copy a .dropdown-entry block above -->
-
-    </div><!-- /tab-technical -->
+    </div>
   </div>
 </section>
 

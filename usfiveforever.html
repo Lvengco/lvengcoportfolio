@@ -223,6 +223,81 @@
     footer { background: var(--text-dark); color: rgba(255,255,255,0.6); text-align: center; padding: 28px 20px; font-size: 0.85rem; }
     footer a { color: var(--awning-yellow); text-decoration: none; }
     .footer-name { font-family: var(--font-display); font-size: 1.2rem; color: white; margin-bottom: 6px; }
+
+    /* ===== FULL-SIZE IMAGE in dropdowns (no crop) ===== */
+    .entry-img-full {
+      width: 100%;
+      max-height: 500px;  /* ↓ EDIT: cap height */
+      object-fit: contain;
+      border-radius: 8px;
+      margin-bottom: 12px;
+      display: block;
+      background: rgba(0,0,0,0.2);
+    }
+
+    /* ===== SIDE-BY-SIDE images in dropdowns ===== */
+    .entry-img-pair {
+      display: flex; gap: 10px; margin-bottom: 12px;
+    }
+    .entry-img-pair img {
+      flex: 1 1 0;
+      max-height: 400px;
+      object-fit: contain;
+      border-radius: 8px;
+      background: rgba(0,0,0,0.2);
+    }
+
+    /* ===== ALTERNATING TEXT+IMAGE SECTIONS =====
+      Place these between overview and tab-divider.
+      Odd sections: image left, text right.
+      Even sections: text left, image right. */
+    .feature-section {
+      background: linear-gradient(180deg, #7ecef4 0%, #a8dcf0 100%);
+      padding: 48px 32px;
+    }
+    .feature-inner {
+      max-width: 1000px; margin: 0 auto;
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 32px; align-items: center;
+    }
+    /* Flip order on even sections */
+    .feature-section:nth-child(even) .feature-inner {
+      direction: rtl;
+    }
+    .feature-section:nth-child(even) .feature-inner > * {
+      direction: ltr;
+    }
+    .feature-img {
+      width: 100%; border-radius: 12px;
+      box-shadow: 4px 4px 0 rgba(0,0,0,0.15);
+    }
+    .feature-text {
+      background: var(--sky-mid);
+      border-radius: 12px;
+      padding: 24px 28px;
+      box-shadow: 4px 4px 0 var(--sky-dark);
+    }
+    .feature-text h3 {
+      font-family: var(--font-display); font-size: 1.5rem;
+      color: white; margin-bottom: 12px;
+      text-shadow: 1px 2px 0 rgba(0,0,0,0.2);
+    }
+    .feature-text p {
+      font-size: 0.95rem; line-height: 1.7;
+      color: rgba(255,255,255,0.92);
+    }
+
+    .steam-widget-wrap {
+      width: 100%;
+      max-width: 646px;
+    }
+    .steam-widget-wrap iframe {
+      width: 100%;
+      height: 190px;
+      border: none;
+      border-radius: 8px;
+    }
   </style>
 </head>
 <body>
@@ -258,6 +333,24 @@
     <div class="video-box">
       <iframe src="https://www.youtube.com/embed/na7hNBtSUQs?si=u2JZecwfleDnxf5g" allow="autoplay; encrypted-media" allowfullscreen></iframe>
 
+    </div>
+  </div>
+</section>
+
+<!-- ===== FEATURE SECTIONS =====
+     These alternate image/text sides automatically.
+     Add as many as you need. Each .feature-section alternates.
+     
+     HOW TO ADD: copy the whole <section class="feature-section"> block.
+-->
+<section class="feature-section">
+  <div class="feature-inner">
+    <div class="steam-widget-wrap">
+      <iframe src="https://store.steampowered.com/widget/4125820/" frameborder="0" width="646" height="190"></iframe>
+    </div>
+    <div class="feature-text">
+      <h3>Available On Steam</h3>
+      <p>Us Five Forever is available on Steam now!</p>
     </div>
   </div>
 </section>
