@@ -85,13 +85,14 @@
     .logo-sign-wrap {
       position: fixed;
       top: 0; left: 24px;
-      z-index: 99;  /* below header's z-index:100, so awning paints over */
+      z-index: 99;  
       cursor: pointer; text-decoration: none;
       transition: transform 0.2s;
     }
     .logo-sign-wrap:hover { transform: translateY(4px); }
     .logo-sign-img {
-      height: 190px; width: auto; display: block;
+      height: 250px;
+      width: auto; display: block;
       filter: drop-shadow(0 4px 8px rgba(0,0,0,0.3));
     }
     .logo-sign-wrap:hover .logo-sign-img {
@@ -122,8 +123,9 @@
       position: absolute;
       right: 0;
       top: 0;
+      pointer-events: none;
     }
-    .header-social a { display: flex; align-items: center; justify-content: center; width: 32px; height: 32px; background: rgba(255,255,255,0.3); border-radius: 50%; color: white; text-decoration: none; font-size: 14px; transition: background 0.2s, transform 0.2s; }
+    .header-social a { display: flex; align-items: center; justify-content: center; width: 32px; height: 32px; background: rgba(255,255,255,0.3); border-radius: 50%; color: white; text-decoration: none; font-size: 14px; transition: background 0.2s, transform 0.2s; pointer-events: auto;}
     .header-social a:hover { background: rgba(255,255,255,0.55); transform: scale(1.1); }
 
     /* ===== PAGES ===== */
@@ -294,7 +296,7 @@
       .header-inner { gap: 2px; }
       nav { gap: 1px; }
       .logo-sign-wrap { left: 4px; }
-      .logo-sign-img { height: 100px; }
+      .logo-sign-img { height: 200px; }
       .nav-sign { font-size: 11px; padding: 7px 9px; }
       .header-social { gap: 4px; } .header-social a { width: 26px; height: 26px; font-size: 12px; }
       .projects-grid { padding: 48px 16px 0; }
@@ -768,7 +770,8 @@
     <a href="https://www.youtube.com/channel/UC3xsCpmBGsyxOgPngeBtn0g" target="_blank">YouTube</a>
     <a href="https://www.tiktok.com/@its.stanza" target="_blank">TikTok</a>
   </div>
-  <p>© 2024 Lily Vengco. All rights reserved.</p>
+  <p>lavengco@outlook.com</p>
+  <p>© 2026 Lily Vengco. All rights reserved.</p>
 </footer>
 
 <script>
