@@ -394,14 +394,13 @@
         </div>
         <div class="dropdown-body">
           <p class="entry-subtitle">The Problem</p>
-          <p class="entry-text">Standard Unreal Blueprint render target pixel reading caused frame hitches in VR. I needed an async GPU readback that could be callable from a Blueprint.</p>
+          <p class="entry-text">Broomsmith’s customer rating system is reliant on the player’s cleaning and painting progress. Because of this, players should have access to a consistently-updating UI that displays their progress accurately. The only way to do this is by reading the texture data of render targets and returning the percentage of black versus white pixels within that render target. Unreal has a Blueprint Node specifically for reading texture data, however utilizing it causes frame hitches in VR. We needed an alternate solution that could efficiently read texture data while not being disruptive to the player experience by lagging the game. </p>
           <img class="entry-img-full" src="assets/images/BroomsmithImgs/RenderTargetImg1.png" alt="C++ Code Segment" />
           <p class="entry-subtitle">What I Did</p>
-          <p class="entry-text">I wrote a C++ Blueprint Function Library class called UCleaningAnalyzer that performs render target pixel analysis asynchronously on a background thread, then returns the result to the game thread via a delegate.</p>
+          <p class="entry-text">I wrote a C++ Blueprint Function Library (a system within Unreal) that reads pixel data from any given render target, then hands the pixel brightness analysis (the heavy counting work) to a background thread. The result is sent back to the game thread via a delegate, which keeps it Blueprint-callable and thread-safe.</p>
           <a class="entry-link" href="https://github.com/Lvengco/BroomsmithCodeSamples/tree/main" target="_blank">🔗 View on GitHub</a>
           <p class="entry-subtitle">The Result</p>
-          <p class="entry-text">Frame hitches during cleaning analysis were eliminated entirely. The system handles multiple simultaneous render target reads without impacting VR frame rate, and is fully extensible. Any new repairable object just has to pass its render target in and receives a normalized progress float back. This system is used to read both the cleaning and painting progress of our meshes.</p>
-          <p class="entry-text">The async progress method can be called via node in any Blueprint Editor, as seen below!</p>
+          <p class="entry-text">The frame freezing was eliminated entirely. The system returns a normalized float (0-1) which represents a clean pixel ratio, thresholded by brightness, and is used to help players track both their painting and cleaning progress without touching the frame budget!</p>
           <img class="entry-img-full" src="assets/images/BroomsmithImgs/CleaningProgressAsyncNode.png" alt="Aync Node In Action" />
         </div>
       </div>
@@ -426,7 +425,7 @@
         </div>
         <div class="dropdown-body">
           <p class="entry-subtitle">Overwriting The Original</p>
-          <p class="entry-text"> Physics Grabbing was a much larger and more complicated system, because I ended up entirely overwriting the existing grab component. The custom grab component has custom dispatchers, events, and grab types that could be easily accessed and changed for any item it was attached to. It features addons such as a floating niagara system and animation on drop, lighting up and changing colors on distance-hovering/activating, and more. </p>
+          <p class="entry-text"> Physics Grabbing was a much larger and more complicated system, because I ended up entirely overwriting the existing grab component. The custom grab component has additional custom dispatchers, events, and grab types that could be easily accessed and changed for any item it was attached to. It features addons such as a floating niagara system and animation on drop, lighting up and changing colors on distance-hovering/activating, and more. </p>
           <p class="entry-text"> Below is an embed of the full Distance Grabbing function including distance-grab lasers. Unreal does not have a distance grab function, so myself and a helper replicated the Unity distance-grabbing feature.</p>
           <div class="entry-img-row">
             <iframe src="https://blueprintue.com/render/_p59tz_y/" scrolling="no" allowfullscreen></iframe>
@@ -496,18 +495,17 @@
           <span class="dropdown-arrow">▼</span>
         </div>
         <div class="dropdown-body">
-            <p class="entry-subtitle">Designer Guides</p>
-            <p class="entry-text">Some Repairable Items come in pieces that will connect together later. To ensure that 3D modelers were creating items that aligned with my ideas, I drew out items in two separate formats: one in default material colors and one in colors that indicated separate pieces.</p>
-            <div class="entry-img-pair">
-              <img src="assets/images/BroomsmithImgs/Stargazer.png" alt="Stargazer Default Image" />
-              <img src="assets/images/BroomsmithImgs/Stargazer Pieces.png" alt="Stargazer Pieces Image" />
-            </div>
-           <p class="entry-subtitle">Profile Photos</p>
-            <p class="entry-text">2D images for character profile photos.</p>
-            <div class="entry-img-pair">
-              <img src="assets/images/BroomsmithImgs/Kierra PFP.png" alt="Kierra PFP" />
-              <img src="assets/images/BroomsmithImgs/Gustave PFP.png" alt="Gustave PFP" />
-            </div>
+          <p class="entry-subtitle">Designer Guides</p>
+          <p class="entry-text">Some Repairable Items come in pieces that will connect together later. To ensure that 3D modelers were creating items that aligned with my ideas and existing systems, I drew out items in two separate formats: one in default material colors and one in colors that indicated separate pieces.</p>
+          <div class="entry-img-pair">
+            <img src="assets/images/BroomsmithImgs/Stargazer.png" alt="Stargazer Default Image" />
+            <img src="assets/images/BroomsmithImgs/Stargazer Pieces.png" alt="Stargazer Pieces Image" />
+          </div>
+          <p class="entry-subtitle">Profile Photos</p>
+          <p class="entry-text">2D images for character profile photos.</p>
+          <div class="entry-img-pair">
+            <img src="assets/images/BroomsmithImgs/Kierra PFP.png" alt="Kierra PFP" />
+             <img src="assets/images/BroomsmithImgs/Gustave PFP.png" alt="Gustave PFP" />
           </div>
         </div>
       </div>
@@ -520,6 +518,7 @@
          LEADERSHIP PROCESS TAB
     ══════════════════════════════════════════ -->
     <div class="tab-panel" id="tab-leadership">
+
       <div class="dropdown-entry">
         <div class="dropdown-header" onclick="toggleDropdown(this)">
           Sprint Planning & Agile Framework
@@ -527,11 +526,11 @@
         </div>
         <div class="dropdown-body">
           <p class="entry-subtitle">Process</p>
-          <p class="entry-text">During this project I managed and onboarded two full-time members and six outsourced, part-time members. This included five designers spread across 2D illustration, 3D modeling, and Graphic Design, two sound designers and one assistant systems designer. The team worked within the Plastic SCM/Gluon repository system and reported task progress through google sheets in accordance with our Agile sprint style!</p>
+          <p class="entry-text">During this project I managed and onboarded two full-time members and six outsourced, part-time members. This included five designers spread across 2D illustration, 3D modeling, and Graphic Design, two sound designers and one assistant systems designer. The team worked within the Plastic SCM/Gluon version control system and reported task progress through google sheets in accordance Agile!</p>
           <div class="entry-img-row">
             <img src="assets/images/BroomsmithImgs/TaskTrackingExample.png" alt="Task Tracking Snapshot" />
           </div>
-          <p class="entry-text">I organized weekly meetings and during critical work days/periods the team would report their progress and standups. On multiple occasions I solved technical and teammate conflicts to ensure a respectful and productive student environment!</p>
+          <p class="entry-text">I organized weekly meetings and during critical work days/periods the team would report their progress during nightly standups. On multiple occasions I solved technical and teammate conflicts to ensure a respectful and productive student environment!</p>
         </div>
       </div>
 
