@@ -241,10 +241,13 @@
     }
     .entry-img-pair img {
       flex: 1 1 0;
-      max-height: 400px;
-      object-fit: contain;
+      flex: 1 1 200px;
+      min-width: 0;       
+      max-width: 100%;     
       border-radius: 8px;
-      background: rgba(0,0,0,0.2);
+      object-fit: contain;  
+      box-shadow: 0 4px 12px rgba(0,0,0,0.3);
+      max-height: 220px;
     }
 
     /* ===== ALTERNATING TEXT+IMAGE SECTIONS =====
@@ -298,6 +301,7 @@
       border: none;
       border-radius: 8px;
     }
+    
   </style>
 </head>
 <body>
@@ -401,40 +405,32 @@
     ══════════════════════════════════════════ -->
     <div class="tab-panel active" id="tab-technical">
 
-      <div class="dropdown-entry">
+      <div class="dropdown-entry open">
         <div class="dropdown-header" onclick="toggleDropdown(this)">
-          Render Target Async Reading Method
+          Editing Grammar & Protecting Character Voices
           <span class="dropdown-arrow">▼</span>
         </div>
         <div class="dropdown-body">
-          <p class="entry-subtitle">The Problem</p>
-          <p class="entry-text">Standard Unreal Blueprint render target pixel reading caused frame hitches in VR. I needed an async GPU readback that could be callable from a Blueprint.</p>
-          <div class="entry-img-row">
-            <img src="assets/images/BroomsmithImgs/RenderTargetImg1.png" alt="C++ Code Segment" />
+          <p class="entry-subtitle">The Context</p>
+          <p class="entry-text">I joined when Us Five Forever already had most of its content written, though much of it had not yet been fully proofread. During my time working with the team, I reviewed and edited hundreds of pages of in-game dialogue, item descriptions, and other narrative content.</p>
+          <p class="entry-text">However, grammar was only one part of the job. Because the narrative team was so large, inconsistencies in characterization and dialogue were fairly common. Different writers naturally interpreted characters in slightly different ways, even when there was a designated “expert” assigned to each one. When something slipped past those experts, I was often the person who caught it.</p>
+          <p class="entry-text">One of the most rewarding parts of the work was becoming deeply familiar with the cast through their histories, personalities, and interactions. Ensuring that every character remained consistent across the game was important not only for narrative cohesion, but also because I genuinely cared about protecting the distinct identities each character brought to the story. Strong character voices are what make stories memorable.</p>
+          <p class="entry-subtitle">Editing Examples</p>
+          <p class="entry-text">I’ve included examples of content I edited, along with breakdowns explaining the reasoning behind each change. This first example focuses primarily on grammar and sentence clarity.</p>
+           <div class="entry-img-pair">
+            <img src="assets/images/UsFiveForever/1Before.png" alt="Editing Example Before" />
+            <img src="assets/images/UsFiveForever/1After.png" alt="Editing Example After" />
           </div>
-          <p class="entry-subtitle">What I Did</p>
-          <p class="entry-text">I wrote a C++ Blueprint Function Library class called UCleaningAnalyzer that performs render target pixel analysis asynchronously on a background thread, then returns the result to the game thread via a delegate.</p>
-          <a class="entry-link" href="https://github.com/Lvengco/BroomsmithCodeSamples/tree/main" target="_blank">🔗 View on GitHub</a>
-          <p class="entry-subtitle">The Result</p>
-          <p class="entry-text">Frame hitches during cleaning analysis were eliminated entirely. The system handles multiple simultaneous render target reads without impacting VR frame rate, and is fully extensible. Any new repairable object just has to pass its render target in and receives a normalized progress float back. This system is used to read both the cleaning and painting progress of our meshes.</p>
+          <p class="entry-text">This next example was technically well-written, but it did not fit the voices of the characters speaking the lines. For example, the average college student would not typically refer to college housing authorities as “college res,” so I changed the term to “RAs” to better reflect more natural dialogue.</p>
+          <p class="entry-text">The character Sam is known for his bro-y, slang-heavy speaking style. He is rarely formal, and one simple way to reinforce that characterization is by avoiding overly proper speech, such as consistently using the protagonist’s full name. Making Sam feel believable relies heavily on energetic, lively dialogue, and that effect is strengthened through deliberate word choice and pacing.</p>
+          <img class="entry-img-full" src="assets/images/UsFiveForever/2BeforeAfter.png" alt="Editing Example Before and After" />
+          <p class="entry-text">When writing dialogue, flow is essential. In this next example, I used two very common dialogue edits. First, contractions are important for creating natural speech patterns. Most people in modern conversation use contractions regularly, especially a laid-back fraternity character like Caleb, so I changed “it will” to “it’ll.”</p>
+          <p class="entry-text">Second, the word “way” was repeated twice in close succession, which made the sentence feel clunky. I resolved this not only by replacing the repeated word, but also by slightly expanding the sentence to better convey Caleb’s personality. Since this scene takes place near the beginning of the game, it was important to establish his characterization quickly and efficiently through dialogue alone.</p>
+          <img class="entry-img-full" src="assets/images/UsFiveForever/3Before.png" alt="Editing Example Before"/>
+          <img class="entry-img-full" src="assets/images/UsFiveForever/3After.png" alt="Editing Example After"/>
         </div>
       </div>
 
-      <div class="dropdown-entry">
-        <div class="dropdown-header" onclick="toggleDropdown(this)">
-          VR Locomotion System
-          <span class="dropdown-arrow">▼</span>
-        </div>
-        <div class="dropdown-body">
-          <p class="entry-subtitle">Creating Joystick Walking</p>
-          <p class="entry-text">Though I utilized the Unreal VR Template pawn in Broomsmith, the pawn was missing some key features. The pawn only had teleportation instead of joystick movement. I implemented character movement and a paired footstep function that would calculate 2D Distance and play back a footstep if the distance was greater than a set threshold.</p>
-          <div class="entry-img-row">
-            <!-- <img src="assets/images/grab-1.jpg" alt="Grab system screenshot" />
-                 <img src="assets/images/grab-2.jpg" alt="Grab system detail" /> -->
-          </div>
-        </div>
-      </div>
-      <!-- ADD MORE TECHNICAL DROPDOWNS HERE — copy a .dropdown-entry block above -->
 
     </div><!-- /tab-technical -->
   </div>
