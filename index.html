@@ -97,6 +97,26 @@
     .logo-sign-wrap:hover .logo-sign-img {
       filter: drop-shadow(0 3px 5px rgba(0,0,0,0.3)) brightness(0.9);
     }
+
+    /* Resume sign — hangs just to the right of the logo */
+    .resume-sign-wrap {
+      position: fixed;
+      top: 0;
+      left: calc(24px + clamp(100px, 14vw, 200px) * 0.55 + 8px);
+      z-index: 99;
+      cursor: pointer; text-decoration: none;
+      transition: transform 0.2s;
+    }
+    .resume-sign-wrap:hover { transform: translateY(4px); }
+    .resume-sign-img {
+      height: clamp(60px, 8vw, 120px);
+      width: auto; display: block;
+      filter: drop-shadow(0 3px 6px rgba(0,0,0,0.3));
+    }
+    .resume-sign-wrap:hover .resume-sign-img {
+      filter: drop-shadow(0 2px 4px rgba(0,0,0,0.3)) brightness(0.9);
+    }
+
     .header-social {
       display: flex; align-items: center; gap: 8px; padding-top: 50px; flex-shrink: 0;
       position: absolute;
@@ -116,7 +136,12 @@
     @keyframes starWobble { 0%,100% { transform: rotate(-8deg) scale(1); } 50% { transform: rotate(8deg) scale(1.07); } }
     .cat-hero h1 { font-family: var(--font-display); font-size: clamp(3rem,8vw,5.5rem); color: white; text-shadow: 3px 4px 0 rgba(0,0,0,0.15); letter-spacing: 2px; line-height: 1; margin-bottom: 12px; }
     .cat-hero p { font-size: clamp(0.9rem,2vw,1.15rem); color: rgba(255,255,255,0.92); text-shadow: 0 1px 3px rgba(0,0,0,0.15); }
-    .hero-scallop { width: 100%; display: block; margin-top: 40px; }
+    .hero-scallop {
+      width: calc(100% + 40px); /* 40px = 20px padding × 2 sides */
+      margin-left: -20px;
+      display: block;
+      margin-top: 40px;
+    }
 
     /* ===== BAG + CARD GRID (shared) ===== */
     .projects-grid { display: flex; flex-wrap: wrap; justify-content: center; gap: 16px 32px; max-width: 1200px; margin: 0 auto 80px; padding: 48px 40px 0; overflow: visible; }
@@ -193,7 +218,8 @@
 
     /* ===== ABOUT / MUSIC / SHARED ===== */
     .sky-bg { background: linear-gradient(180deg, var(--sky) 0%, #b8e8ff 100%); padding: 70px 0 0 0; position: relative; }
-    .wave-divider { width: 100%; display: block; margin-bottom: -2px; }
+    .wave-divider { width: 100%; display: block; margin-bottom: -2px; overflow: visible; }
+    .sky-bg { overflow: hidden; } /* clip so wave doesn't create horizontal scroll */
     .about-wrap { max-width: 900px; margin: 0 auto; padding: 60px 40px 80px; }
     .about-hero { display: grid; grid-template-columns: 1fr 1fr; gap: 48px; align-items: center; margin-bottom: 60px; }
     @media (max-width: 680px) { .about-hero { grid-template-columns: 1fr; } }
@@ -322,7 +348,7 @@
     <img class="cat-hero-star" src="assets/images/smallSketchyStar.png" alt="" aria-hidden="true" />
     <h1>Builds</h1>
     <p>Real-time interactive worlds built for PC and XR</p>
-    <svg class="hero-scallop" viewBox="0 0 1440 54" preserveAspectRatio="none" xmlns="http://www.w3.org/2000/svg">
+    <svg class="hero-scallop" viewBox=" 0 -2 1440 52" preserveAspectRatio="none" xmlns="http://www.w3.org/2000/svg">
       <path d="M0,0 C60,54 120,0 180,27 C240,54 300,0 360,27 C420,54 480,0 540,27 C600,54 660,0 720,27 C780,54 840,0 900,27 C960,54 1020,0 1080,27 C1140,54 1200,0 1260,27 C1320,54 1380,0 1440,27 L1440,54 L0,54 Z" fill="#fdf6e3"/>
     </svg>
   </div>
@@ -351,7 +377,7 @@
     <!-- HEY BARTENDER
          To add cover image replace the placeholder div with:
          <img class="project-card-img" src="assets/images/hey-bartender-cover.jpg" alt="Hey Bartender" /> -->
-    <div class="bag-card-wrap">
+    <!--<div class="bag-card-wrap">
       <a class="project-card" href="heybartender.html">
         <img class="project-card-img" src="assets/images/HeyBartenderImgs/HeyBartenderSplash.png" alt="Hey Bartender" />
         <div class="project-card-body">
@@ -366,7 +392,7 @@
         </div>
       </a>
     </div>
-
+  -->
     <!-- DOUGH OR DIE
          To add cover image replace the placeholder div with:
          <img class="project-card-img" src="assets/images/dough-or-die-cover.jpg" alt="Dough or Die" /> -->
@@ -410,7 +436,7 @@
     <img class="cat-hero-star" src="assets/images/smallSketchyStar.png" alt="" aria-hidden="true" />
     <h1>Gallery</h1>
     <p>Sculpted characters, painted worlds, and rendered scenes</p>
-    <svg class="hero-scallop" viewBox="0 0 1440 54" preserveAspectRatio="none" xmlns="http://www.w3.org/2000/svg">
+    <svg class="hero-scallop" viewBox="0 0 1440 54" preserveAspectRatio="none" xmlns="http://www.w3.org/2000/svg" >
       <path d="M0,0 C60,54 120,0 180,27 C240,54 300,0 360,27 C420,54 480,0 540,27 C600,54 660,0 720,27 C780,54 840,0 900,27 C960,54 1020,0 1080,27 C1140,54 1200,0 1260,27 C1320,54 1380,0 1440,27 L1440,54 L0,54 Z" fill="#fdf6e3"/>
     </svg>
   </div>
@@ -656,13 +682,17 @@
     <h1>Music</h1>
     <p>Though visual art and creative technology is my primary passion, I'm also a trained musician! I released three tracks in high school — all in 2020 — and everything was written, produced, and performed entirely by me.</p>
     <div class="music-embed-placeholder">
-      <div class="note">🎵</div>
-      <p style="margin:0; color: var(--text-mid);">Paste your Spotify or SoundCloud embed code here.<br><small>Replace this div with your &lt;iframe&gt; embed.</small></p>
+      <iframe data-testid="embed-iframe" style="border-radius:12px" src="https://open.spotify.com/embed/artist/7LOh7FYKmATi2SDZortWIS?utm_source=generator" width="100%" height="352" frameBorder="0" allowfullscreen="" allow="autoplay; clipboard-write; encrypted-media; fullscreen; picture-in-picture" loading="lazy"></iframe>
     </div>
     <div class="music-platform-links">
-      <a class="platform-btn purple" href="https://open.spotify.com" target="_blank">Spotify</a>
-      <a class="platform-btn green" href="https://soundcloud.com" target="_blank">SoundCloud</a>
+      <a class="platform-btn purple" href="https://open.spotify.com/artist/7LOh7FYKmATi2SDZortWIS" target="_blank">Spotify</a>
+      <a class="platform-btn green" href="https://music.apple.com/us/artist/lily-vengco/1553629923" target="_blank">Apple Music</a>
     </div>
+  </div>
+  <div class="music-wrap">
+    <h1>Gig Calendar</h1>
+    <div data-events-calendar-app data-project-id="proj_v1Ko4NrvIPV8x41YfDBxe" style="padding: 60px 40px 80px;"></div>
+    <script type="text/javascript" src="//dist.eventscalendar.co/embed.js"></script>
   </div>
 </div>
 
@@ -683,6 +713,32 @@
         <p>My passion has guided me to <strong>Extended Reality & Games</strong> — fields where art, sound, and technology combine to create something genuinely impactful. The idea of improving lives through both entertainment and human health is one of the greatest purposes an artist could have.</p>
       </div>
     </div>
+
+    <!-- ===== RESUME SECTION =====
+         Replace YOUR_RESUME.pdf with the actual filename of your PDF
+         uploaded to your assets folder. e.g. assets/LilyVengco_Resume.pdf
+    ===== -->
+    <div id="resume" class="resume-section">
+      <h2>Resume</h2>
+      <p>Download or view my resume below.</p>
+      <div class="resume-actions">
+        <a class="explore-btn blue"
+           href="assets/LilyVengco_Resume.pdf"
+           download="LilyVengco_Resume.pdf">
+          ↓ Download Resume
+        </a>
+        <a class="explore-btn teal"
+           href="assets/LilyVengco_Resume.pdf"
+           target="_blank">
+          Open in New Tab →
+        </a>
+      </div>
+      <iframe class="resume-embed"
+              src="assets/LilyVengco_Resume.pdf"
+              title="Lily Vengco Resume">
+      </iframe>
+    </div>
+
     <div class="skills-section">
       <h2>Skills &amp; Tools</h2>
       <div class="skills-grid">
@@ -767,6 +823,16 @@ document.addEventListener('DOMContentLoaded', function() {
     document.getElementById('lightbox').style.display = 'none';
     document.getElementById('lightbox-img').src = '';
     document.body.style.overflow = '';
+  }
+  
+  function goToResume(e) {
+    e.preventDefault();
+    // Navigate to About page first, then scroll to resume section
+    showPage('about', document.querySelector('[onclick*="about"]'), null);
+    setTimeout(function() {
+      var el = document.getElementById('resume');
+      if (el) el.scrollIntoView({ behavior: 'smooth', block: 'start' });
+    }, 100);
   }
 </script>
 </body>
