@@ -223,6 +223,17 @@
     footer { background: var(--text-dark); color: rgba(255,255,255,0.6); text-align: center; padding: 28px 20px; font-size: 0.85rem; }
     footer a { color: var(--awning-yellow); text-decoration: none; }
     .footer-name { font-family: var(--font-display); font-size: 1.2rem; color: white; margin-bottom: 6px; }
+  
+    /* ===== FULL-SIZE IMAGE in dropdowns (no crop) ===== */
+    .entry-img-full {
+      width: 100%;
+      max-height: 500px;  /* ↓ EDIT: cap height */
+      object-fit: contain;
+      border-radius: 8px;
+      margin-bottom: 12px;
+      display: block;
+      background: rgba(0,0,0,0.2);
+    }
   </style>
 </head>
 <body>
@@ -310,24 +321,31 @@
 
       <div class="dropdown-entry">
         <div class="dropdown-header" onclick="toggleDropdown(this)">
-          The Perk System
+          Perk Blueprint Systems
           <span class="dropdown-arrow">▼</span>
         </div>
         <div class="dropdown-body">
           <p class="entry-subtitle">The Problem</p>
-          <p class="entry-text">The Dough or Die programming team had created a perk system which allowed players to obtain and activate various abilities and upgrades. However, the system was spread out across too many different Blueprints and managers, and the team didn't have a unified approach to managing and accessing these perks.</p>
+          <p class="entry-text">The Dough or Die programming team created a perk system which allowed players to obtain and activate various abilities and upgrades. However, the system was spread out across too many different Blueprints and managers, and the team didn't have a unified approach to managing and accessing these perks that didn't involve copying and pasting hardcoded node sequences constantly.</p>
           <p class="entry-subtitle">What I Did</p>
-          <p class="entry-text">Because their team was busy with other systems, I read through their existing code base myself to ensure I could work around their existing work without causing conflicts. Then I began my work!
-          <div class="entry-img-row">
-            <img src="assets/images/BroomsmithImgs/RenderTargetImg1.png" alt="C++ Code Segment" />
-          </div>
-          <p class="entry-subtitle">What I Did</p>
-          <p class="entry-text">I wrote a C++ Blueprint Function Library class called UCleaningAnalyzer that performs render target pixel analysis asynchronously on a background thread, then returns the result to the game thread via a delegate.</p>
-          <a class="entry-link" href="https://github.com/Lvengco/BroomsmithCodeSamples/tree/main" target="_blank">🔗 View on GitHub</a>
-          <p class="entry-subtitle">The Result</p>
-          <p class="entry-text">Frame hitches during cleaning analysis were eliminated entirely. The system handles multiple simultaneous render target reads without impacting VR frame rate, and is fully extensible. Any new repairable object just has to pass its render target in and receives a normalized progress float back. This system is used to read both the cleaning and painting progress of our meshes.</p>
+          <p class="entry-text">Because their team was busy with other systems, I read through their existing code base myself to ensure I could add, remove, and modify around their existing work without causing conflicts.
+          <p class="entry-text">Dough or Die only uses Unreal Blueprint systems so I created a Blueprint Function Library containing different nodes- each meant to fulfill a different requirement or solve a different problem posed by the team.</p>
+          <img class="entry-img-full" src="assets/images/DoughOrDieImgs/Perk Blueprint Library.png" alt="Perk Blueprint Function Library" />
+          <p class="entry-text">These nodes call functions created by me inside the Game Instance Blueprint. Utilizing a minimal amount of nodes organized to enhance readability was important, especially for a large team of programmers who may or may not all be familiar with the codebase. Comments were left within the functions for clarifications.</p>
+          <img class="entry-img-full" src="assets/images/DoughOrDieImgs/PerkPlayFunction.png" alt="Perk Blueprint Function Library" />
         </div>
       </div>
+
+      <div class="dropdown-entry">
+        <div class="dropdown-header" onclick="toggleDropdown(this)">
+          Perk Storage and Creation
+          <span class="dropdown-arrow">▼</span>
+        </div>
+        <div class="dropdown-body">
+          <p class="entry-subtitle">Data Assets are King</p>
+          <p class="entry-text">To solve the problem of easily creating and modifying perks without needing to touch the Blueprint functions themselves, I created a system of Data Assets. Each perk is represented by a Data Asset which contains all the information about that perk- its name, description, icon, and most importantly, the nodes that need to be executed when the perk is activated (relative to a given Enum!).</p>
+          <img class="entry-img-full" src="assets/images/DoughOrDieImgs/PerkDA.png" alt="Perk Data Asset Example" />
+          <p class="entry-text">This way, designers and programmers assigned to this part of the project can easily create perks within strict guidelines and cannot add extra details that could possibly break the game.</p>
     </div>
   </div>
 </section>
