@@ -207,7 +207,7 @@
       transition: max-height 0.4s ease, padding 0.3s ease;
       background: rgba(255,255,255,0.06); padding: 0 20px;
     }
-    .dropdown-entry.open .dropdown-body { max-height: 2000px; padding: 20px; }
+    .dropdown-entry.open .dropdown-body { max-height: 6000px; padding: 20px; }
 
     .entry-subtitle { font-family: var(--font-display); font-size: 1.1rem; color: var(--awning-yellow); margin-bottom: 8px; }
     .entry-text { font-size: 0.92rem; line-height: 1.75; color: rgba(255,255,255,0.88); margin-bottom: 16px; }
@@ -257,6 +257,23 @@
       object-fit: contain;  
       box-shadow: 0 4px 12px rgba(0,0,0,0.3);
       max-height: 220px;
+    }
+
+      /* GIF or image — full size, no crop */
+    .entry-gif {
+      width: 100%;
+      height: auto;
+      display: block;
+      border-radius: 8px;
+      margin-bottom: 12px;
+    }
+
+    /* Local video file (.mp4, .webm) */
+    .entry-video-local {
+      width: 100%;
+      border-radius: 8px;
+      margin-bottom: 12px;
+      display: block;
     }
 
     /* ===== ALTERNATING TEXT+IMAGE SECTIONS =====
@@ -447,6 +464,33 @@
           <p class="entry-text">The render targets are set on BP Construct and link to each Repairable Item’s (The item a player is tasked with repairing by customers) dynamic instance material. </p>
           <p class="entry-subtitle">Material Setup</p>
           <img class="entry-img-full" src="assets/images/BroomsmithImgs/Material Render Target 1.png" alt="Render target Material Setup" />
+        </div>
+      </div>
+
+      <div class="dropdown-entry">
+        <div class="dropdown-header" onclick="toggleDropdown(this)">
+          Interactive Audio Mechanics
+          <span class="dropdown-arrow">▼</span>
+        </div>
+        <div class="dropdown-body">
+          <p class="entry-subtitle">Radio</p>
+          <p class="entry-text">Creating an immersive environment requires, in my experience, three things: consistently styled visuals, smooth interactions, and responsive, controllable audio.</p>
+          <p class="entry-text">Having played VR workshop simulators with in-game radios that let players change the background music, I wanted to bring that same sense of environmental ownership to Broomsmith. A physical radio lets players cycle through a lineup of songs— not by opening a menu, but by pressing actual buttons. Each button is a separate mesh with a physics constraint limiting its travel; when it reaches its limit, it overlaps a collision box that triggers an event dispatcher, advancing the track. It's a small thing, but giving players a perceivable grip on their own space goes a long way. </p>
+          <video class="entry-video-local" controls>
+            <source src="assets/images/BroomsmithImgs/Radio Music Switching.mp4" type="video/mp4" />
+          </video>
+          <p class="entry-text">Each text message would also communicate the length of its string to the listening text message blueprint which, based on a customizable string-per-second threshold, would play the “...” animation for a certain amount of time before posting a message. It felt more real this way!</p>
+          <p class="entry-subtitle">Curse Removal</p>
+          <p class="entry-text">The curse removal station carries that audio-first philosophy further, this time as the mechanic's centerpiece. Every curse spawned into the world is assigned a target pitch: a float between 0 and 1, multiplied by 12 (one value per musical note in an octave, which is 12) to make pitch shifts perceptible to the human ear. That value is applied to a MetaSound asset, which plays a spatially attenuated tone — meaning the sound has a sense of physical presence in the space!
+          <p class="entry-text">The interaction begins when the player hooks the station's pliers onto a curse. At that moment, the pliers communicate the target pitch float to both the Curse Station (the blue egg) and the Curse Lever. Tapping the Curse Station with the wand activates it, emitting the target tone as a looping reference sound. When the pliers are unhooked, the target pitch is cleared from both recipients — resetting the system cleanly for the next curse. </p>
+          <img class="entry-img-full" src="assets/images/BroomsmithImgs/PlierCommunication.png" alt="Plier Curse Communication" />
+          <p class="entry-text">The Curse Lever, a physics-constrained interactable, sits nearby! Its angle is calculated every tick and translated into a matching 0–1 float, then multiplied by 12 like the target pitch to match it. That float drives a parameter inside a MetaSound asset, meaning the lever's physical position directly controls the frequency of the sound it produces. </p>
+          <img class="entry-img-full" src="assets/images/BroomsmithImgs/Communication and Lever Translation.png" alt="Lever Pitch Calculation" />
+          <p class="entry-text">When the player's lever tone matches the Hub's tone and holds there long enough, a symbol is revealed for gesture drawing with their wand. The system is unique because it engages a sense the rest of the workshop doesn't. Every other mechanic is visual or tactile. This one asks you to listen because immersion means accounting for the whole person.</p>
+          <p class="entry-text">Below is a video of the full system in action, from hooking the pliers to successfully removing a curse!</p>
+          <video class="entry-video-local" controls>
+            <source src="assets/images/BroomsmithImgs/Final Curse Extraction.mp4" type="video/mp4" />
+          </video>
         </div>
       </div>
 
