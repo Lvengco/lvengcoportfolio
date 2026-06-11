@@ -246,10 +246,10 @@
 <header id="site-header">
   <div class="header-inner">
     <nav>
-      <a class="nav-sign-wrap active" href="index.html">
+      <a class="nav-sign-wrap" href="index.html">
         <img class="nav-sign-img" src="assets/images/BuildsSign.png" alt="Builds" />
       </a>
-      <a class="nav-sign-wrap" href="gallery.html">
+      <a class="nav-sign-wrap active" href="gallery.html">
         <img class="nav-sign-img" src="assets/images/GallerySign.png" alt="Gallery" />
       </a>
       <a class="nav-sign-wrap" href="animation.html">
@@ -279,56 +279,57 @@
 
 <div class="cat-hero">
     <img class="cat-hero-star" src="assets/images/smallSketchyStar.png" alt="" aria-hidden="true" />
-    <h1>Builds</h1>
-    <p>Real-time interactive worlds built for PC and XR</p>
+    <h1>2D Illustrations</h1>
+    <p>Digital paintings, character sheets, and concept art</p>
     <svg class="hero-scallop" viewBox="0 -2 1440 52" preserveAspectRatio="none" xmlns="http://www.w3.org/2000/svg"><path d="M0,0 C60,54 120,0 180,27 C240,54 300,0 360,27 C420,54 480,0 540,27 C600,54 660,0 720,27 C780,54 840,0 900,27 C960,54 1020,0 1080,27 C1140,54 1200,0 1260,27 C1320,54 1380,0 1440,27 L1440,54 L0,54 Z" fill="#fdf6e3"/></svg>
   </div>
-  <div class="projects-grid">
-    <div class="bag-card-wrap">
-      <a class="project-card" href="broomsmith.html">
-        <img class="project-card-img" src="assets/images/2DIllustrationGallery/BroomsmithTitleSplash1.png" alt="Broomsmith" />
-        <div class="project-card-body">
-          <div class="project-card-tag"><span class="tag blue">Unreal Engine</span><span class="tag teal">VR</span><span class="tag orange">C++</span><span class="tag green">Blueprints</span></div>
-          <div class="project-card-title">Broomsmith</div>
-          <div class="project-card-subtitle">A VR game where players clean, paint and repair magical items.</div>
-          <span class="explore-btn blue">Explore &#8594;</span>
-        </div>
-      </a>
+  <div style="max-width:1100px; margin: 24px auto 0; padding: 0 32px;">
+    <a href="gallery.html" class="explore-btn teal" style="font-size:0.85rem; padding: 8px 18px;">&#8592; Back to Gallery</a>
+  </div>
+  <div class="illus-grid">
+    <div class="illus-item" onclick="openLightbox(event.currentTarget)">
+      <img src="assets/images/2DIllustrationGallery/Wizard Stairway.png" alt="Wizard Stairway (2025)" loading="lazy" />
+      <div class="illus-caption">Wizard Stairway (2025)</div>
     </div>
-    <div class="bag-card-wrap">
-      <a class="project-card" href="heybartender.html">
-        <img class="project-card-img" src="assets/images/HeyBartenderImgs/HeyBartenderSplash.png" alt="Hey, Bartender!" />
-        <div class="project-card-body">
-          <div class="project-card-tag"><span class="tag blue">Unity</span><span class="tag teal">VR</span><span class="tag orange">C#</span><span class="tag green">Blender</span></div>
-          <div class="project-card-title">Hey, Bartender!</div>
-          <div class="project-card-subtitle">A VR bartending simulator with a drink crafting system!</div>
-          <span class="explore-btn blue">Explore &#8594;</span>
-        </div>
-      </a>
+    <div class="illus-item" onclick="openLightbox(event.currentTarget)">
+      <img src="assets/images/2DIllustrationGallery/FinishedFenStudy.png" alt="Fen from the InBetween (2026)" loading="lazy" />
+      <div class="illus-caption">Fen from the InBetween (2026)</div>
     </div>
-    <div class="bag-card-wrap">
-      <a class="project-card" href="doughordie.html">
-        <img class="project-card-img" src="assets/images/DoughOrDieImgs/DoughOrDieLogo.png" alt="Dough or Die" />
-        <div class="project-card-body">
-          <div class="project-card-tag"><span class="tag blue">Unreal Engine</span><span class="tag teal">Blueprints</span></div>
-          <div class="project-card-title">Dough or Die</div>
-          <div class="project-card-subtitle">A PC game where a bakery simulator meets an underground fighting arena.</div>
-          <span class="explore-btn blue">Explore &#8594;</span>
-        </div>
-      </a>
+    <div class="illus-item" onclick="openLightbox(event.currentTarget)">
+      <img src="assets/images/2DIllustrationGallery/Decieved By The Gods- Balance Final.png" alt="Decieved By The Gods (2023)" loading="lazy" />
+      <div class="illus-caption">Decieved By The Gods (2023)</div>
     </div>
-    <div class="bag-card-wrap">
-      <a class="project-card" href="usfiveforever.html">
-        <img class="project-card-img" src="assets/images/UsFiveForever/UsFiveForeverHeader.jpg" alt="Us Five Forever" />
-        <div class="project-card-body">
-          <div class="project-card-tag"><span class="tag blue">Godot</span><span class="tag teal">Narrative Editing</span><span class="tag blue">Google Suite</span></div>
-          <div class="project-card-title">Us Five Forever</div>
-          <div class="project-card-subtitle">A PC point and click game detailing a collegiate mystery.</div>
-          <span class="explore-btn blue">Explore &#8594;</span>
-        </div>
-      </a>
+    <div class="illus-item" onclick="openLightbox(event.currentTarget)">
+      <img src="assets/images/2DIllustrationGallery/BroomsmithTitleSplash1.png" alt="Broomsmith First Title Splash (2025)" loading="lazy" />
+      <div class="illus-caption">Broomsmith First Title Splash (2025)</div>
+    </div>
+    <div class="illus-item" onclick="openLightbox(event.currentTarget)">
+      <img src="assets/images/2DIllustrationGallery/BroomsmithTitleSplash2.png" alt="Broomsmith Second Title Splash (2026)" loading="lazy" />
+      <div class="illus-caption">Broomsmith Second Title Splash (2026)</div>
+    </div>
+    <div class="illus-item" onclick="openLightbox(event.currentTarget)">
+      <img src="assets/images/2DIllustrationGallery/Liz and the mites.png" alt="Liz and the Mites (2023)" loading="lazy" />
+      <div class="illus-caption">Liz and the Mites (2023)</div>
+    </div>
+    <div class="illus-item" onclick="openLightbox(event.currentTarget)">
+      <img src="assets/images/2DIllustrationGallery/Lily Self Portrait.png" alt="Lily Self Portrait (2022)" loading="lazy" />
+      <div class="illus-caption">Lily Self Portrait (2022)</div>
+    </div>
+    <div class="illus-item" onclick="openLightbox(event.currentTarget)">
+      <img src="assets/images/2DIllustrationGallery/Meeting in the Square.png" alt="Meeting in the Square (2022)" loading="lazy" />
+      <div class="illus-caption">Meeting in the Square (2022)</div>
+    </div>
+    <div class="illus-item" onclick="openLightbox(event.currentTarget)">
+      <img src="assets/images/2DIllustrationGallery/bearsmp 2.png" alt="Hidden Features (2022)" loading="lazy" />
+      <div class="illus-caption">Hidden Features (2022)</div>
     </div>
   </div>
+
+<div id="lightbox">
+  <button id="lightbox-close">&times;</button>
+  <img id="lightbox-img" src="" alt="" />
+  <div id="lightbox-caption"></div>
+</div>
 
 
 <footer>
@@ -344,7 +345,29 @@
 </footer>
 
 <script>
-
+function openLightbox(item) {
+    var img = item.querySelector('img');
+    var cap = item.querySelector('.illus-caption');
+    document.getElementById('lightbox-img').src = img.src;
+    document.getElementById('lightbox-img').alt = img.alt;
+    document.getElementById('lightbox-caption').textContent = cap ? cap.textContent : '';
+    document.getElementById('lightbox').style.display = 'flex';
+    document.body.style.overflow = 'hidden';
+  }
+  document.addEventListener('DOMContentLoaded', function() {
+    document.getElementById('lightbox-close').addEventListener('click', closeLightbox);
+    document.getElementById('lightbox').addEventListener('click', function(e) {
+      if (e.target === this) closeLightbox();
+    });
+    document.addEventListener('keydown', function(e) {
+      if (e.key === 'Escape') closeLightbox();
+    });
+  });
+  function closeLightbox() {
+    document.getElementById('lightbox').style.display = 'none';
+    document.getElementById('lightbox-img').src = '';
+    document.body.style.overflow = '';
+  }
 </script>
 </body>
 </html>
